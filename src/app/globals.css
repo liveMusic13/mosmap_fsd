@@ -1,26 +1,130 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+	--white: #ffffff;
+	--primary: #117474;
+	--primary-light: #73dfd8;
+	--primary-middle: #28b2aa;
+	--light-blue: #f9fafd;
+	--text-black: #1e1c1c;
+	--text-disabled: #b5b5b5;
+	--text-placeholder: #d4d4d4;
+	--border-gray: #d0d0d0;
+	--border-input-gray: #dde2e4;
+	--border-dotted: #e3e3e3;
+	--border-buttons-gray: #f7f7f7;
+	--border-checkbox-gray: #858383;
+	--placeholder-input: #66727f;
+	--text-red: #741411;
+	--line-footer: #c0c4c742;
+	--copyright: #a69f9f;
+	--text-blue: #0c4cd3;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+	--color-white: var(--white);
+	--color-primary: var(--primary);
+	--color-light-blue: var(--light-blue);
+	--color-text-black: var(--text-black);
+	--color-text-disabled: var(--text-disabled);
+	--color-text-placeholder: var(--text-placeholder);
+	--color-border-gray: var(--border-gray);
+	--color-border-input-gray: var(--border-input-gray);
+	--color-border-dotted: var(--border-dotted);
+	--color-border-buttons-gray: var(--border-buttons-gray);
+	--color-text-red: var(--text-red);
+	--color-line-footer: var(--line-footer);
+	--color-copyright: var(--copyright);
+	--color-text-blue: var(--text-blue);
+	--color-placeholder-input: var(--placeholder-input);
+	--color-primary-light: var(--primary-light);
+	--color-primary-middle: var(--primary-middle);
+
+	/*  Шрифты */
+	--font-inter: var(--font-inter);
+	--font-intro: var(--font-intro);
+
+	--font-family-intro: var(--font-intro);
+
+	/* Тени блоков */
+	--shadow-custom-green: 0px 4px 39px 0px #6cb5b552;
+	--shadow-custom-black: 0px 2px 15px 0px #00000017;
 }
 
-@media (prefers-color-scheme: dark) {
+@layer utilities {
+	.scrollbar-custom {
+		scrollbar-width: thin; /* Firefox */
+		scrollbar-color: theme(--color-primary) transparent;
+	}
+
+	.scrollbar-custom::-webkit-scrollbar {
+		width: 0.2rem;
+		background-color: transparent;
+	}
+
+	.scrollbar-custom::-webkit-scrollbar-track {
+		background: transparent;
+		border-left: 1px solid theme(--color-light-blue);
+		border-top-right-radius: 12px;
+	}
+
+	.scrollbar-custom::-webkit-scrollbar-thumb {
+		background: theme(--color-primary);
+		border-radius: 12px;
+		transition: background 0.3s ease;
+	}
+
+	.scrollbar-custom::-webkit-scrollbar-thumb:hover {
+		background: #28b2aa;
+		cursor: grabbing;
+	}
+}
+
+/* @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
   }
-}
+} */
+
+/* 
+Порядок breakpoints в Tailwind:
+
+default (без префикса) → 0px+
+sm: → 640px+
+md: → 768px+
+lg: → 1024px+
+xl: → 1280px+
+2xl: → 1536px+ */
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+	background: var(--white);
+	color: var(--text-black);
+	font-size: 14px;
+}
+
+/* HELP:убираем логотип с украинским флагом */
+.leaflet-control-attribution {
+	display: none;
+}
+/* HELP:для карты, чтобы она за затемнение экрана при попапе не вылазила */
+.leaflet-container {
+	z-index: 20;
+}
+/* HELP: УБИРАЕМ КНОПКУ ДЛЯ РЕДАКТИРОВАНИЯ ВЫДЕЛЕННОЙ ОБЛАСТИ */
+.leaflet-bar > .leaflet-draw-edit-edit {
+	display: none;
+}
+
+.leaflet-draw-actions.leaflet-draw-actions-top.leaflet-draw-actions-bottom
+	> li
+	> a {
+	background-color: var(--text-black) !important;
+	color: var(--white) !important;
+}
+/* HELP:для курсора, при перемещении */
+.map-move-marker-mode,
+.map-move-marker-mode.leaflet-dragging,
+.map-move-marker-mode .leaflet-interactive {
+	cursor: crosshair !important;
 }

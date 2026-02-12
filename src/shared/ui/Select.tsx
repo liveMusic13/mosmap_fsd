@@ -1,0 +1,68 @@
+import Image from 'next/image';
+import { FC, useRef, useState } from 'react';
+
+import { useClickOutside } from '../hooks/useClickOutside';
+import { ISelectOptions } from '../types/shared.type';
+
+interface IProps {
+	options: ISelectOptions[];
+	value?: number;
+	onChange?: (value: number) => void;
+}
+
+const Select: FC<IProps> = ({ options, onChange, value }) => {
+	const selectRef = useRef<HTMLDivElement>(null);
+
+	const [isOpen, setIsOpen] = useState<boolean>(false);
+
+	const selectedOption = options.find(
+		opt => Number(opt.value) === Number(value),
+	);
+
+	useClickOutside(selectRef, () => setIsOpen(false));
+
+	const handleOpenOptions = () => setIsOpen(p => !p);
+	const handleChoiceOption = (option: ISelectOptions) => {
+		setIsOpen(false);
+		onChange?.(option.value);
+	};
+
+	return (
+		<div className='flex flex-col gap-1' ref={selectRef}>
+			<div
+				className='bg-linear-to-b from-white to-[#f2f5fa] flex items-center justify-between rounded-sm border border-[#E1E6ED] p-1.5 xl:p-2.5 hover:cursor-pointer hover:border-primary transition-colors'
+				onClick={handleOpenOptions}
+			>
+				<span className='text-xs xl:text-sm'>
+					{/* {selectTarget} */}
+					{selectedOption?.name ?? 'Выберите значение'}
+				</span>
+				<Image
+					src={'/images/icons/arrow_double.svg'}
+					alt='logo'
+					width={8} //HELP: минимальный размер для оптимизации
+					height={16} //HELP: должен быть в тех же пропорциях, что и изображение
+				/>
+			</div>
+			{isOpen && (
+				<div className='max-h-32 scrollbar-custom overflow-x-hidden overflow-y-auto bg-light-blue border border-border-gray rounded-sm p-0.5 xl:p-1.5 flex flex-col gap-0.5'>
+					{options.map((opt, ind) => (
+						<p
+							key={`${opt.value}${ind}`}
+							className={`hover:bg-white transition-colors hover:cursor-pointer ${
+								Number(opt.value) === Number(value)
+									? 'bg-white font-semibold'
+									: '' // ✅ Подсветка выбранного
+							}`}
+							onClick={() => handleChoiceOption(opt)}
+						>
+							{opt.name}
+						</p>
+					))}
+				</div>
+			)}
+		</div>
+	);
+};
+
+export default Select;
