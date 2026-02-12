@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import { useMapEvents } from 'react-leaflet';
-import { useZoomLevelStore } from '../store/map.store';
+
+import { useZoomLevelStore } from '@/entities/map';
 
 const ZoomTracker: FC = () => {
 	const setZoomLevel = useZoomLevelStore(state => state.setZoomLevel);
