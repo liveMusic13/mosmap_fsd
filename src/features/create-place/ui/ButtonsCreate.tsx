@@ -1,10 +1,12 @@
+'use client';
+
 import { useSearchParams } from 'next/navigation';
 import { FC, useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import { useSavePlaceInfo } from '@/entities/place/hooks/useSavePlaceInfo';
 import { IDetailsPlaceInfo } from '@/entities/place/types';
-import { useGetMapPageData } from '@/shared/hooks/useGetMapPageData';
+import { useGetMapPageData } from '@/shared/hooks/api-hooks/useGetMapPageData';
 import { useGetSeoOrQueryParam } from '@/shared/hooks/useGetSeoOrQueryParam';
 import { buildQueryParams } from '@/shared/lib/url';
 import Button from '@/shared/ui/Button';

@@ -1,3 +1,5 @@
+'use client';
+
 import { LatLngExpression } from 'leaflet';
 import { FC, useEffect, useRef } from 'react';
 import { useMap } from 'react-leaflet';

@@ -1,3 +1,5 @@
+import { ReadonlyURLSearchParams } from 'next/navigation';
+
 import { TUrl } from '../types/api.types';
 
 export function buildQueryParams(
@@ -97,3 +99,24 @@ export const updateUrlParams = (params: Record<string, string>) => {
 	const newUrl = `${window.location.pathname}${searchParams.toString() ? '?' + searchParams.toString() : ''}`;
 	window.history.pushState({}, '', newUrl);
 };
+
+export function getQueryStringForMobilePanel(
+	searchParams: ReadonlyURLSearchParams,
+	mapId: string | null,
+): string {
+	// const mapId = getMapId(searchParams);
+
+	if (!mapId) {
+		return searchParams.toString();
+	}
+
+	// Создаем новый URLSearchParams с номером карты
+	const params = new URLSearchParams(searchParams.toString());
+
+	// Убеждаемся что параметр map есть
+	if (!params.has('map')) {
+		params.set('map', mapId);
+	}
+
+	return params.toString();
+}

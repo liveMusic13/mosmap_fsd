@@ -17,9 +17,13 @@ export interface IViewBlocksStore {
 	openView: (newView: Exclude<TViewBlocks, null>) => void;
 	closeView: () => void;
 	fullCloseView: () => void;
+	isInitialized: boolean;
+	initialize: () => void;
 }
 
 export interface IViewListsStore {
+	isInitialized: boolean;
+	initialize: () => void;
 	isView: boolean;
 	setIsView: (bol: boolean) => void;
 }

@@ -3,9 +3,11 @@ import { FC } from 'react';
 import { useVisibleMarkers } from '../hooks/useVisibleMarkers';
 
 import { useZoomLevelStore } from '@/entities/map';
-import { CircleMarker, Marker, Polygon } from '@/entities/place';
 import { useTargetPlaceIdStore } from '@/entities/place/store/targetPlace.store';
 import type { IPlace } from '@/entities/place/types';
+import { CircleMarker } from '@/entities/place/ui/place-map/CircleMarker';
+import { Marker } from '@/entities/place/ui/place-map/Marker';
+import { Polygon } from '@/entities/place/ui/place-map/Polygon';
 
 interface IProp {
 	markers: IPlace[];

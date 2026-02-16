@@ -1,3 +1,5 @@
+'use client';
+
 import { useSearchParams } from 'next/navigation';
 import { FC, useEffect } from 'react';
 
@@ -11,7 +13,7 @@ import { useGetDetailsPlace } from '@/entities/place/hooks/useGetDetailsPlace';
 import { useSavePlaceInfo } from '@/entities/place/hooks/useSavePlaceInfo';
 import { useTargetPlaceIdStore } from '@/entities/place/store/targetPlace.store';
 import { CENTER_MAP_CRD } from '@/shared/constants';
-import { useGetMapPageData } from '@/shared/hooks/useGetMapPageData';
+import { useGetMapPageData } from '@/shared/hooks/api-hooks/useGetMapPageData';
 import { useGetSeoOrQueryParam } from '@/shared/hooks/useGetSeoOrQueryParam';
 import { buildQueryParams } from '@/shared/lib/url';
 import Button from '@/shared/ui/Button';

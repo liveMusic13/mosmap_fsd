@@ -9,6 +9,15 @@ import {
 export const useViewBlocksStore = create<IViewBlocksStore>(set => ({
 	view: 'filters',
 	prevView: null,
+	isInitialized: false,
+	initialize: () => {
+		if (typeof window !== 'undefined') {
+			set({
+				view: window.innerWidth < 640 ? null : 'filters',
+				isInitialized: true,
+			});
+		}
+	},
 
 	//HELP: открываем новый экран, запоминая текущий
 	openView: newView =>
@@ -35,6 +44,16 @@ export const useViewBlocksStore = create<IViewBlocksStore>(set => ({
 export const useViewListsStore = create<IViewListsStore>(set => ({
 	isView: true,
 	setIsView: bol => set({ isView: bol }),
+
+	isInitialized: false,
+	initialize: () => {
+		if (typeof window !== 'undefined') {
+			set({
+				isView: window.innerWidth < 640 ? false : true,
+				isInitialized: true,
+			});
+		}
+	},
 }));
 
 export const useViewPaintingOfAreaStore = create<IViewPaintingOfAreaStore>(

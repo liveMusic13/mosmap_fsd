@@ -15,6 +15,14 @@ export function withUrlRedirect(middleware: NextMiddleware): NextMiddleware {
 
 		const { searchParams, pathname } = request.nextUrl;
 
+		// ✅ ВАЖНО: исключаем mobile-filters
+		if (
+			pathname.startsWith('/mobile-filters') ||
+			pathname.startsWith('/mobile-list')
+		) {
+			return middleware(request, event);
+		}
+
 		// Читаем map из URL или cookie
 		const mapFromUrl = searchParams.get(QUERY_MAP);
 		const mapFromCookie = request.cookies.get(USER_MAP_SERVER_COOKIE)?.value;
@@ -41,6 +49,13 @@ export function withUrlRedirect(middleware: NextMiddleware): NextMiddleware {
 					const seoUrl = request.nextUrl.clone();
 					seoUrl.pathname = expectedPath;
 					seoUrl.searchParams.delete(QUERY_MAP);
+
+					// Логирование для отладки
+					console.log('🔄 Redirect:', {
+						from: pathname,
+						to: expectedPath,
+						params: seoUrl.search,
+					});
 
 					return NextResponse.redirect(seoUrl, 301);
 				}

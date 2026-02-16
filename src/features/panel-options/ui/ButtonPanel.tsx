@@ -27,11 +27,13 @@ export const ButtonPanel: FC<IProps> = ({
 	return (
 		<Button
 			variant='icon'
-			className='relative group w-7! h-7! xl:w-8.5! xl:h-8.5! border border-border-buttons-gray! hover:border-primary!'
+			className='relative group w-12! h-12!  sm:w-7! sm:h-7! xl:w-8.5! xl:h-8.5! border border-border-buttons-gray! hover:border-primary!'
 			disabled={isDisabled}
 			onClick={onClick}
 		>
-			<svg className={`w-6.5 h-6.5 xl:w-8 xl:h-8 ${colorIcon}`}>
+			<svg
+				className={`w-10.5 h-10.5 sm:w-6.5 sm:h-6.5 xl:w-8 xl:h-8 ${colorIcon}`}
+			>
 				<use xlinkHref={`/images/icons/sprite.svg#${src}`}></use>
 			</svg>
 			<p

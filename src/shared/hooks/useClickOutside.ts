@@ -1,8 +1,10 @@
+'use client';
+
 import { type RefObject, useEffect } from 'react';
 
 export const useClickOutside = (
 	ref: RefObject<HTMLDivElement | null>,
-	handler: () => void
+	handler: () => void,
 ) => {
 	//HELP: Закрытие по клику вне
 	useEffect(() => {

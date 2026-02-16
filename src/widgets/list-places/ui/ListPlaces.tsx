@@ -92,8 +92,76 @@ const ListPlaces: FC = () => {
 		openView('place-info');
 	};
 
+	// return (
+	// 	<div className='min-w-3xs xl:min-w-sm max-w-2xs xl:max-w-md rounded-xl shadow-custom-black pt-3 px-2 xl:pt-5 xl:px-4 flex flex-col h-full'>
+	// 		<div className='shrink-0 border-b border-dotted border-border-dotted pb-1.5'>
+	// 			<h3 className='font-bold text-xl xl:text-[1.38rem] mb-2.5'>
+	// 				Список объектов
+	// 			</h3>
+	// 			<div>
+	// 				<p className='font-bold text-xs xl:text-sm flex items-center justify-between'>
+	// 					<span>Всего объектов в списке:</span>
+	// 					<span>{allPlaces}</span>
+	// 				</p>
+	// 				<p className='font-bold text-xs xl:text-sm flex items-center justify-between'>
+	// 					<span>Всего объектов на карте:</span>
+	// 					<span>{placesInMap}</span>
+	// 				</p>
+	// 			</div>
+	// 		</div>
+
+	// 		{isLoading && <Loader />}
+
+	// 		<div className='mt-2 border border-b-0 border-text-disabled rounded-t-xl flex-1 min-h-0 pt-2.5 px-2.5 flex flex-col'>
+	// 			<div className='shrink-0'>
+	// 				<Input
+	// 					placeholder='Поиск'
+	// 					fullWidth
+	// 					value={search}
+	// 					onChange={onChange}
+	// 				/>
+	// 			</div>
+
+	// 			<div
+	// 				ref={parentRef}
+	// 				className='mt-2 flex-1 min-h-0 overflow-auto scrollbar-custom'
+	// 			>
+	// 				{isSuccess && (
+	// 					<div
+	// 						style={{
+	// 							height: rowVirtualizer.getTotalSize(),
+	// 							position: 'relative',
+	// 						}}
+	// 					>
+	// 						{rowVirtualizer.getVirtualItems().map(virtualRow => {
+	// 							const item = filteredData[virtualRow.index];
+
+	// 							return (
+	// 								<div
+	// 									key={virtualRow.key}
+	// 									data-index={virtualRow.index}
+	// 									ref={rowVirtualizer.measureElement}
+	// 									className='absolute top-0 left-0 w-full'
+	// 									style={{
+	// 										transform: `translateY(${virtualRow.start}px)`,
+	// 									}}
+	// 								>
+	// 									<PlaceListItem
+	// 										place={item}
+	// 										isTarget={targetIndex === virtualRow.index}
+	// 										onClick={() => handleClick(item)}
+	// 									/>
+	// 								</div>
+	// 							);
+	// 						})}
+	// 					</div>
+	// 				)}
+	// 			</div>
+	// 		</div>
+	// 	</div>
+	// );
 	return (
-		<div className='min-w-3xs xl:min-w-sm max-w-2xs xl:max-w-md rounded-xl shadow-custom-black pt-3 px-2 xl:pt-5 xl:px-4 flex flex-col h-full'>
+		<div className='w-full sm:w-auto sm:min-w-3xs sm:max-w-2xs xl:min-w-sm xl:max-w-md rounded-xl shadow-custom-black pt-3 px-2 xl:pt-5 xl:px-4 flex flex-col max-h-full sm:max-h-none sm:h-full'>
 			<div className='shrink-0 border-b border-dotted border-border-dotted pb-1.5'>
 				<h3 className='font-bold text-xl xl:text-[1.38rem] mb-2.5'>
 					Список объектов
@@ -109,9 +177,7 @@ const ListPlaces: FC = () => {
 					</p>
 				</div>
 			</div>
-
 			{isLoading && <Loader />}
-
 			<div className='mt-2 border border-b-0 border-text-disabled rounded-t-xl flex-1 min-h-0 pt-2.5 px-2.5 flex flex-col'>
 				<div className='shrink-0'>
 					<Input

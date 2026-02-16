@@ -6,27 +6,32 @@ import { settingsArr, standardArr } from '../data/buttonsPanel';
 import { toggleActiveIcon } from '../lib/helpers';
 
 import { ButtonPanel } from './ButtonPanel';
-import { useTargetPlaceIdStore } from '@/entities/place';
 import {
 	useViewBlocksStore,
 	useViewListsStore,
 	useViewPaintingOfAreaStore,
 } from '@/shared/store/panelOptions.store';
+import { TViewBlocks } from '@/shared/types/store.types';
 import Line from '@/shared/ui/Line';
 
-const Panel: FC = () => {
-	const view = useViewBlocksStore(store => store.view);
+interface IProps {
+	targetPlaceId: number | null;
+	view: TViewBlocks;
+	isViewPaintingOfArea: boolean;
+}
+
+export const Panel: FC<IProps> = ({
+	isViewPaintingOfArea,
+	targetPlaceId,
+	view,
+}) => {
 	const openView = useViewBlocksStore(store => store.openView);
 	const closeView = useViewBlocksStore(store => store.closeView);
 	const { isView, setIsView: setIsViewLists } = useViewListsStore(
 		store => store,
 	);
-	const targetPlaceId = useTargetPlaceIdStore(store => store.id);
 	const toggleViewPaintingOfArea = useViewPaintingOfAreaStore(
 		store => store.toggleView,
-	);
-	const isViewPaintingOfArea = useViewPaintingOfAreaStore(
-		store => store.isView,
 	);
 
 	const handleStandard = (id: number) => {
@@ -52,7 +57,7 @@ const Panel: FC = () => {
 	};
 
 	return (
-		<div className='flex items-center justify-between w-full h-9 xl:h-11 shadow-custom-black rounded-xl px-1'>
+		<div className='hidden sm:flex items-center justify-between w-full h-9 xl:h-11 shadow-custom-black rounded-xl px-1'>
 			<div className='flex gap-1 items-center'>
 				{standardArr.map(but => {
 					const isRed =
@@ -91,5 +96,3 @@ const Panel: FC = () => {
 		</div>
 	);
 };
-
-export default Panel;

@@ -1,4 +1,3 @@
-import { TOKEN_COOKIE_NAME } from '@/shared/constants';
 import { jwtDecode } from 'jwt-decode';
 import {
 	NextFetchEvent,
@@ -6,6 +5,8 @@ import {
 	NextRequest,
 	NextResponse,
 } from 'next/server';
+
+import { TOKEN_COOKIE_NAME } from '@/shared/constants';
 
 //HELP: Приватные маршруты (требуют авторизации)
 const protectedRoutes = [
@@ -82,57 +83,3 @@ export function withAuth(middleware: NextMiddleware): NextMiddleware {
 		return middleware(request, event);
 	};
 }
-
-// import { TOKEN_COOKIE_NAME } from '@/shared/constants';
-// import { jwtDecode } from 'jwt-decode';
-// import {
-// 	NextFetchEvent,
-// 	NextMiddleware,
-// 	NextRequest,
-// 	NextResponse,
-// } from 'next/server';
-
-// const protectedRoutes = ['/settings'];
-// const authRoutes = ['/auth', '/register'];
-// const publicRoutes = ['/'];
-
-// function matchesRoute(pathname: string, routes: string[]): boolean {
-// 	return routes.some(
-// 		route => pathname === route || pathname.startsWith(route + '/')
-// 	);
-// }
-
-// function isTokenExpired(token: string): boolean {
-// 	try {
-// 		const decoded: { exp?: number } = jwtDecode(token);
-// 		if (!decoded.exp) return true;
-
-// 		const currentTime = Math.floor(Date.now() / 1000);
-// 		return decoded.exp < currentTime;
-// 	} catch {
-// 		return true;
-// 	}
-// }
-
-// export function withAuth(middleware: NextMiddleware): NextMiddleware {
-// 	return async (request: NextRequest, event: NextFetchEvent) => {
-// 		const { pathname } = request.nextUrl;
-// 		const token = request.cookies.get(TOKEN_COOKIE_NAME)?.value;
-
-// 		if (matchesRoute(pathname, protectedRoutes)) {
-// 			if (!token || isTokenExpired(token)) {
-// 				const response = NextResponse.redirect(new URL('/auth', request.url));
-// 				response.cookies.delete(TOKEN_COOKIE_NAME);
-// 				return response;
-// 			}
-// 		}
-
-// 		if (matchesRoute(pathname, authRoutes)) {
-// 			if (token && !isTokenExpired(token)) {
-// 				return NextResponse.redirect(new URL('/', request.url));
-// 			}
-// 		}
-
-// 		return middleware(request, event);
-// 	};
-// }

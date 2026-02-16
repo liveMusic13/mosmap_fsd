@@ -143,7 +143,7 @@ export const useFilterSync = (
 				}
 			}
 		});
-
+		console.log('urlParams', urlParams);
 		// console.log('🌐 Финальные URL параметры:', urlParams);
 		updateUrlParams(urlParams);
 	}, [debouncedFormValues, filters, defaultValues, isInitialized]);

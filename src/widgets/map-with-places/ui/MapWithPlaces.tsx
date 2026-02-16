@@ -16,9 +16,9 @@ import {
 	useCenterMapStore,
 	useZoomLevelStore,
 } from '@/entities/map';
+import { ResizeMap } from '@/entities/map/ui/ResizeMap';
 import { useCrdAreaStore, useMoveMarkerStore } from '@/entities/place';
 import { SearchAddress } from '@/features/search-address';
-// import { SelectAreaDraw } from '@/features/select-area';
 import { useGetMapPageData } from '@/shared/hooks/api-hooks/useGetMapPageData';
 import { useGetSeoOrQueryParam } from '@/shared/hooks/useGetSeoOrQueryParam';
 import { buildQueryParams } from '@/shared/lib/url';
@@ -70,6 +70,7 @@ const MapWithPlaces: FC = () => {
 				zoom={zoomLevel}
 				className={`flex-1 rounded-xl`}
 			>
+				<ResizeMap data={data} />
 				<TileLayer url={data?.tiles_url || ''} />
 				<ZoomTracker />
 				<MapCursorController

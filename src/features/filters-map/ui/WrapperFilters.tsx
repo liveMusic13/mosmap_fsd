@@ -2,7 +2,7 @@
 
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { FC, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -31,6 +31,7 @@ export type FormDataFilter = {
 const WrapperFilters: FC = () => {
 	const mapOrSeoUrl = useGetSeoOrQueryParam();
 	const searchParams = useSearchParams();
+	const router = useRouter();
 
 	const [isInitialized, setIsInitialized] = useState(false);
 
@@ -56,7 +57,7 @@ const WrapperFilters: FC = () => {
 	}, [formValues, searchParams]);
 
 	const {
-		data: data_map,
+		// data: data_map,
 		refetch,
 		isLoading: isLoading_data_map,
 	} = useGetMapPageData(queryString);
@@ -76,10 +77,20 @@ const WrapperFilters: FC = () => {
 	const handleGetDataWithFilters = () => {
 		console.log('queryString', queryString);
 		refetch();
+
+		if (window.screen.width <= 640) {
+			const params = new URLSearchParams();
+			//HELP: добавляем исходные searchParams
+			searchParams.forEach((value, key) => params.set(key, value));
+			console.log('tut', `/${params.toString()}`);
+			router.push(`/?${params.toString()}`);
+			//TODO:СБИВАЛИСЬ КВЕРИ ПАРАМЕТРЫ ПРИ ПЕРЕХОДЕ НА ГЛАВНУЮ.ВРОДЕ УЖЕ РАБОТАЕТ, НО ЗАМЕТИЛ ДРУГОЙ БАГ:ЕСЛИ ВЫБРАЛ ФИЛЬТРЫ, ПЕРЕШЕЛ НА ГЛАВНУЮ, ВЕРНУЛСЯ НА ФИЛЬТРЫ И ПОПЫТАЛСЯ СБРОСИТЬ ТО НЕ ДАËТ ИХ СБРОСИТЬ, ОБРАТНО ВОССТАНАВЛИВАЕТ. С ЭТИМ НУЖНО РАЗОБРАТЬСЯ.
+			// UPD: ТОЛЬКО ЧТО ПРОВЕРИЛ И ОКАЗЫВАЕТСЯ В ПК ВЕРСИИ ТОЖЕ САМОЕ НЕ ДАЕТ СБРАСЫВАТЬ ЕСЛИ УЖЕ ПРИМЕНИЛ ФИЛЬТРЫ. ДАЖЕ БЕЗ ПЕРЕХОДА НА ДРУГУЮ СТРАНИЦУ
+		}
 	};
 
 	return (
-		<div className='shadow-custom-black w-56 xl:w-sm rounded-xl py-3 px-2 xl:py-5 xl:px-4 flex flex-col gap-3 h-full min-h-0'>
+		<div className='shadow-custom-black w-full sm:w-56 xl:w-sm rounded-xl py-3 px-2 xl:py-5 xl:px-4 flex flex-col gap-3 h-full min-h-0'>
 			<div className='flex items-center justify-between mb-2.5'>
 				<h3 className='font-bold text-xl xl:text-[1.38rem]'>Фильтры</h3>
 				<Button

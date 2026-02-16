@@ -1,3 +1,5 @@
+'use client';
+
 import { FC, useLayoutEffect } from 'react';
 
 import { EditPlaceDetail } from '@/entities/place';
