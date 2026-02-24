@@ -1,16 +1,17 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
 
+import { useCrdAreaStore } from '@/entities/place';
 import { useSavePlaceInfo } from '@/entities/place/hooks/useSavePlaceInfo';
 import { IDetailsPlaceInfo } from '@/entities/place/types';
 import { useGetMapPageData } from '@/shared/hooks/api-hooks/useGetMapPageData';
 import { useGetSeoOrQueryParam } from '@/shared/hooks/useGetSeoOrQueryParam';
 import { buildQueryParams } from '@/shared/lib/url';
 import Button from '@/shared/ui/Button';
-import Popup from '@/shared/ui/Popup';
+import { LoaderPortal } from '@/shared/ui/loader';
 
 const buttons = [
 	{
@@ -28,11 +29,14 @@ interface IProps {
 }
 
 export const ButtonsCreate: FC<IProps> = ({ place }) => {
-	const [isPopup, setIsPopup] = useState(false);
 	const mapOrSeoUrl = useGetSeoOrQueryParam();
 	const { reset, getValues } = useFormContext();
 
-	const { mutate, isSuccess, data } = useSavePlaceInfo();
+	const { mutate, isSuccess, data, isPending } = useSavePlaceInfo();
+	const crdArea = useCrdAreaStore(store => store.crd);
+	const clearCrdArea = useCrdAreaStore(store => store.clearCrd);
+	// const fullCloseView = useViewBlocksStore(store => store.fullCloseView);
+	// const closeView = useViewBlocksStore(store => store.closeView);
 
 	const searchParams = useSearchParams();
 
@@ -46,8 +50,11 @@ export const ButtonsCreate: FC<IProps> = ({ place }) => {
 	useEffect(() => {
 		if (isSuccess) {
 			refetch();
+			clearCrdArea();
 		}
 	}, [isSuccess, data]);
+
+	console.log('place', place);
 
 	const onClick = (id: number) => {
 		if (id === 0) {
@@ -57,8 +64,11 @@ export const ButtonsCreate: FC<IProps> = ({ place }) => {
 			}
 			const valuesForm = getValues();
 
+			const crd = crdArea ? [crdArea.lat, crdArea.lng] : [];
+
 			const editPlace = {
 				...place,
+				crd: crd,
 				values: place.values.map(info => ({
 					...info,
 					value: valuesForm[info.label] ?? info.value,
@@ -85,7 +95,7 @@ export const ButtonsCreate: FC<IProps> = ({ place }) => {
 						<Button
 							key={but.id}
 							variant={variant}
-							className={`${but.id === 0 ? 'h-7! w-fit!' : ''}`}
+							className={`${but.id === 0 ? 'h-7! w-auto!' : ''}`}
 							onClick={() => onClick(but.id)}
 						>
 							{but.title}
@@ -93,24 +103,10 @@ export const ButtonsCreate: FC<IProps> = ({ place }) => {
 					);
 				})}
 			</div>
-			<Popup open={isPopup} onClose={() => setIsPopup(false)}>
-				<div>
-					<p className='font-bold mb-2'>
-						Выберите любое место на карте и нажмите на него. Когда установите,
-						нажмите правой кнопкой мыши в любое место чтобы закончить установку
-						координат для маркера.
-					</p>
-					<div className='flex items-center justify-center'>
-						<Button
-							variant='green'
-							className='w-fit! h-7!'
-							onClick={() => setIsPopup(false)}
-						>
-							Понятно
-						</Button>
-					</div>
-				</div>
-			</Popup>
+			<LoaderPortal
+				isLoading={isPending}
+				message='Идет сохранение объекта...'
+			/>
 		</>
 	);
 };

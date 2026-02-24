@@ -27,7 +27,7 @@ export const ButtonPanel: FC<IProps> = ({
 	return (
 		<Button
 			variant='icon'
-			className='relative group w-12! h-12!  sm:w-7! sm:h-7! xl:w-8.5! xl:h-8.5! border border-border-buttons-gray! hover:border-primary!'
+			className={`relative group w-12! h-12! shrink-0 sm:w-7! sm:h-7! xl:w-8.5! xl:h-8.5! border border-border-buttons-gray! hover:border-primary! ${isDisabled ? ' pointer-events-none ' : ''}`}
 			disabled={isDisabled}
 			onClick={onClick}
 		>
@@ -36,8 +36,9 @@ export const ButtonPanel: FC<IProps> = ({
 			>
 				<use xlinkHref={`/images/icons/sprite.svg#${src}`}></use>
 			</svg>
+
 			<p
-				className={`absolute hidden z-99999 group-hover:block -bottom-full ${positionStyle} whitespace-nowrap rounded-md bg-[#2e2e2e] text-white px-2 py-1 text-xs`}
+				className={`absolute hidden z-99999999999 group-hover:block -bottom-full ${positionStyle} whitespace-nowrap rounded-md bg-[#2e2e2e] text-white px-2 py-1 text-xs`}
 			>
 				{hover_text}
 			</p>

@@ -33,7 +33,7 @@ export const PanelOptionsInMap: FC = () => {
 	};
 
 	return (
-		<div className='flex gap-2 absolute right-2.5 top-2.5 z-3333'>
+		<div className='flex gap-2 absolute right-2.5 top-2.5 z-33'>
 			{buttonsMap.map(but => {
 				const src =
 					but.id === 1

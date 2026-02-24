@@ -1,4 +1,4 @@
-import { FC, ReactNode, useRef } from 'react';
+import { FC, ReactNode, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 import { useClickOutside } from '../hooks/useClickOutside';
@@ -14,7 +14,21 @@ const Popup: FC<IProps> = ({ onClose, children, open }) => {
 	const ref = useRef(null);
 	const mounted = useMounted();
 
-	useClickOutside(ref, onClose);
+	const [isReady, setIsReady] = useState(false);
+
+	//HELP: Активируем useClickOutside только после того как попап "устоялся". Так как при первом монтировании срабатывает клик и если надо чтобы какие-то действия выполнялись только по клику в onClose, то нужно в начале пустую функцию передавать а потом уже функцию закрытия попапа. иначе он будет сам закрываться
+	useEffect(() => {
+		if (open) {
+			const timer = setTimeout(() => setIsReady(true), 100);
+			return () => clearTimeout(timer);
+		} else {
+			setIsReady(false);
+		}
+	}, [open]);
+
+	useClickOutside(ref, isReady ? onClose : () => {});
+
+	// useClickOutside(ref, onClose);
 
 	if (!mounted) return null;
 
@@ -39,7 +53,7 @@ const Popup: FC<IProps> = ({ onClose, children, open }) => {
           rounded-xl
           shadow-custom-green p-3 xl:p-4
           bg-white
-          relative z-999999
+          relative z-999999999999999999999
           transition-all duration-300
           ${open ? 'scale-100 translate-y-0' : 'scale-95 translate-y-2'}
         `}

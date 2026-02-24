@@ -18,6 +18,7 @@ export const useFilterSync = (
 	filters: IFiltersData[],
 ) => {
 	const skipFirstSync = useRef(true);
+
 	//HELP: Создаем карту дефолтных значений
 	const defaultValues = useMemo(() => {
 		const defaults: Record<string, any> = {};
@@ -98,11 +99,6 @@ export const useFilterSync = (
 					const listParam = buildListParams(filter.name, value as number);
 					Object.assign(urlParams, listParam);
 				}
-
-				// if (value !== undefined && value !== defaultValue) {
-				// 	const listParam = buildListParams(filter.name, value as number);
-				// 	Object.assign(urlParams, listParam);
-				// }
 			} else if (filter.type === 'map' && filter.items) {
 				// console.log(
 				// 	`\n📦 Обрабатываем MAP фильтр: ${filter.name} (id: ${filter.id})`,
@@ -115,16 +111,6 @@ export const useFilterSync = (
 						`filter_${filter.id}_${item.item_id}` as keyof FormDataFilter;
 					const value = debouncedFormValues[fieldName];
 					const defaultValue = defaultValues[fieldName];
-
-					// console.log(
-					// 	`  - Чекбокс ${item.item_name} (item_id: ${item.item_id}):`,
-					// 	{
-					// 		fieldName,
-					// 		value,
-					// 		defaultValue,
-					// 		isSelected: value === true && value !== defaultValue,
-					// 	},
-					// );
 
 					if (value === true && value !== defaultValue) {
 						selectedItemIds.push(item.item_id);
@@ -143,8 +129,7 @@ export const useFilterSync = (
 				}
 			}
 		});
-		console.log('urlParams', urlParams);
-		// console.log('🌐 Финальные URL параметры:', urlParams);
+
 		updateUrlParams(urlParams);
 	}, [debouncedFormValues, filters, defaultValues, isInitialized]);
 };

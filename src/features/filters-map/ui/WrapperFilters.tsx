@@ -35,10 +35,9 @@ const WrapperFilters: FC = () => {
 
 	const [isInitialized, setIsInitialized] = useState(false);
 
-	const { control, getValues, watch, reset, setValue } =
-		useForm<FormDataFilter>({
-			mode: 'onChange',
-		});
+	const { control, watch, reset } = useForm<FormDataFilter>({
+		mode: 'onChange',
+	});
 	const formValues = watch(); //HELP: значения всех фильтров
 
 	const queryString = useMemo(() => {
@@ -56,23 +55,35 @@ const WrapperFilters: FC = () => {
 			: `?${baseQuery}`;
 	}, [formValues, searchParams]);
 
-	const {
-		// data: data_map,
-		refetch,
-		isLoading: isLoading_data_map,
-	} = useGetMapPageData(queryString);
+	const { refetch, isLoading: isLoading_data_map } =
+		useGetMapPageData(queryString);
 
 	const { data, isLoading } = useGetFilters(mapOrSeoUrl.result);
 
 	//HELP: Инициализация формы
-	useFilterInitFromUrl(reset, setIsInitialized, data || []);
+	useFilterInitFromUrl(reset, setIsInitialized, isInitialized, data || []);
 	//HELP: Синхронизация формы с URL
 	useFilterSync(control, isInitialized, data || []);
 
 	const handleReset = () => {
-		reset();
-		//HELP: Очистка URL параметров
-		window.history.pushState({}, '', window.location.pathname);
+		// reset();
+		// //HELP: Очистка URL параметров
+		// window.history.pushState({}, '', window.location.pathname);
+		// ШАГ 1: Блокируем синхронизацию с URL
+		setIsInitialized(false);
+
+		// ШАГ 2: Очищаем форму (react-hook-form)
+		reset({});
+
+		// ШАГ 3: Чистим URL физически
+		const newUrl = window.location.pathname;
+		window.history.pushState({}, '', newUrl);
+
+		// ШАГ 4: Даем React "продышаться" и включаем готовность обратно.
+		// Теперь useFilterInitFromUrl увидит пустой URL и не будет восстанавливать старье.
+		setTimeout(() => {
+			setIsInitialized(true);
+		}, 100);
 	};
 	const handleGetDataWithFilters = () => {
 		console.log('queryString', queryString);

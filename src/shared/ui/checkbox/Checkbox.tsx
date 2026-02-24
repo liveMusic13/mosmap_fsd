@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { forwardRef, InputHTMLAttributes } from 'react';
+import { InputHTMLAttributes, forwardRef } from 'react';
 
 interface IProps extends InputHTMLAttributes<HTMLInputElement> {
 	className?: string;
@@ -8,10 +8,16 @@ interface IProps extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 export const Checkbox = forwardRef<HTMLInputElement, IProps>(
-	({ checked, onChange, className, label, classNameLabel, ...rest }, ref) => {
+	(
+		{ checked, onChange, className, label, classNameLabel, id, ...rest },
+		ref,
+	) => {
+		const inputId =
+			id || `checkbox-${label?.replace(/\s+/g, '-').toLowerCase()}`;
 		const checkedStyles = `${checked ? 'border-primary bg-primary group-hover:border-text-black' : 'border-border-checkbox-gray  group-hover:border-primary'}`;
 		return (
-			<div
+			<label
+				htmlFor={inputId} // Связываем клик по всей области с инпутом
 				className='flex gap-1.5 items-center group'
 				onClick={e => {
 					const inputElement = e.currentTarget.querySelector('input');
@@ -45,7 +51,7 @@ export const Checkbox = forwardRef<HTMLInputElement, IProps>(
 						{label}
 					</span>
 				)}
-			</div>
+			</label>
 		);
-	}
+	},
 );

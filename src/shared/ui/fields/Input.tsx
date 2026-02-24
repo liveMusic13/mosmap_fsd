@@ -1,4 +1,4 @@
-import { forwardRef, InputHTMLAttributes, ReactNode } from 'react';
+import { InputHTMLAttributes, ReactNode, forwardRef } from 'react';
 import { FieldError } from 'react-hook-form';
 
 interface IProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -28,7 +28,7 @@ export const Input = forwardRef<HTMLInputElement, IProps>(
 			positionImage,
 			...rest
 		},
-		ref
+		ref,
 	) => {
 		const errorMessage = typeof error === 'string' ? error : error?.message;
 		const hasError = !!error;
@@ -108,7 +108,7 @@ export const Input = forwardRef<HTMLInputElement, IProps>(
 				)}
 			</div>
 		);
-	}
+	},
 );
 
 Input.displayName = 'Input';

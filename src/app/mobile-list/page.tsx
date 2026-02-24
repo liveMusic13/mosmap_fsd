@@ -32,21 +32,8 @@ export default async function MobileFilters({
 			<h1 className='uppercase text-xl sm:text-4xl font-intro'>
 				{response.title}
 			</h1>
-			<WrapperPanel />
+			<WrapperPanel buttons={response.buttons ?? []} />
 			<WrapperListContainer places={response.points ?? []} />
 		</div>
 	);
-	// return (
-	// 	<div className='flex flex-col gap-3.5 min-h-0 flex-1 px-2.5 sm:px-5 md:px-7.5 xl:px-15 py-2.5 sm:py-5 lg:py-6 xl:py-10 overflow-hidden'>
-	// 		<h1 className='uppercase text-xl sm:text-4xl font-intro shrink-0'>
-	// 			{response.title}
-	// 		</h1>
-	// 		<div className='shrink-0'>
-	// 			<WrapperPanel />
-	// 		</div>
-	// 		<div className='flex-1 min-h-0 overflow-hidden'>
-	// 			<WrapperAllMapContainerMobile places={response.points ?? []} />
-	// 		</div>
-	// 	</div>
-	// );
 }

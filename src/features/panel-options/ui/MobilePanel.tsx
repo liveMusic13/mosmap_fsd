@@ -7,8 +7,12 @@ import { settingsArr, standardArr } from '../data/buttonsPanel';
 import { toggleActiveIcon } from '../lib/helpers';
 
 import { ButtonPanel } from './ButtonPanel';
+import { LinkPanel } from './LinkPanel';
+import { useCheckToken } from '@/app/providers/TokenProvider';
+import { checkMapAccess } from '@/shared/lib/decodedToken';
 import { getQueryStringForMobilePanel } from '@/shared/lib/url';
 import { useViewListsStore } from '@/shared/store/panelOptions.store';
+import { ILinkButtonInMapPageData } from '@/shared/types/api.types';
 import { TViewBlocks } from '@/shared/types/store.types';
 import Line from '@/shared/ui/Line';
 
@@ -17,6 +21,7 @@ interface IProps {
 	view: TViewBlocks;
 	isViewPaintingOfArea: boolean;
 	map: string;
+	buttons: ILinkButtonInMapPageData[];
 }
 
 export const MobilePanel: FC<IProps> = ({
@@ -24,6 +29,7 @@ export const MobilePanel: FC<IProps> = ({
 	view,
 	isViewPaintingOfArea,
 	map,
+	buttons,
 }) => {
 	const pathname = usePathname();
 	const router = useRouter();
@@ -32,8 +38,22 @@ export const MobilePanel: FC<IProps> = ({
 
 	const queryString = getQueryStringForMobilePanel(searchParams, map);
 
+	const { token, decodeToken } = useCheckToken();
+	const tokenHasMapAccess = checkMapAccess(
+		Number(map),
+		decodeToken,
+	).hasMapAccess;
+
 	const handleStandard = (id: number) => {
-		if (id === 2) {
+		if (id === 0) {
+			if (tokenHasMapAccess) {
+				router.push(`/import/?${queryString}`);
+			}
+		} else if (id === 1) {
+			if (tokenHasMapAccess) {
+				router.push(`/export/?${queryString}`);
+			}
+		} else if (id === 2) {
 			const url = queryString
 				? `/mobile-filters/?${queryString}`
 				: `/mobile-filters/`;
@@ -56,11 +76,34 @@ export const MobilePanel: FC<IProps> = ({
 			} else {
 				router.push(`${url}`);
 			}
+		} else if (id === 5) {
+			router.push(`/settings-database/?${queryString}`);
 		}
 	};
 
+	const isDisabled = (id: number) => {
+		if (id === 0 || id === 1) {
+			if (!tokenHasMapAccess) return true;
+		} else if (!targetPlaceId && view !== 'area-info' && id === 4) {
+			return true;
+		}
+		return false;
+	};
+
 	return (
-		<div className='flex sm:hidden gap-2 items-center w-full min-h-14 h-14 sm:h-9 xl:h-11 shadow-custom-black rounded-xl px-1 overflow-x-auto scrollbar-custom'>
+		<div className='flex sm:hidden gap-2 items-center min-w-0 w-full max-w-full min-h-14 h-14 sm:h-9 xl:h-11 shadow-custom-black rounded-xl px-1 overflow-x-auto scrollbar-custom'>
+			{buttons.map((but, ind) => {
+				return (
+					<LinkPanel
+						key={ind}
+						hover_text={but.text}
+						position='left'
+						url={but.url}
+						src={but.image_min}
+						isMobile={true}
+					/>
+				);
+			})}
 			{standardArr.map(but => {
 				const isRed =
 					(isViewPaintingOfArea && but.id === 7) ||
@@ -72,7 +115,7 @@ export const MobilePanel: FC<IProps> = ({
 						hover_text={but.hover_text}
 						src={toggleActiveIcon(but, view, isViewList)}
 						position='left'
-						isDisabled={!targetPlaceId && view !== 'area-info' && but.id === 4}
+						isDisabled={isDisabled(but.id)}
 						onClick={() => handleStandard(but.id)}
 					/>
 				);
@@ -87,7 +130,7 @@ export const MobilePanel: FC<IProps> = ({
 					hover_text={but.hover_text}
 					src={but.src_active}
 					position='right'
-					onClick={() => {}}
+					onClick={() => handleStandard(but.id)}
 				/>
 			))}
 		</div>

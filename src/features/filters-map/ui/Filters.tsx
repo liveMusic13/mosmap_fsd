@@ -8,7 +8,6 @@ import { FormDataFilter } from './WrapperFilters';
 
 interface IProps {
 	filters: IFiltersData[];
-	// control: Control<FormDataFilter, any, FormDataFilter>;
 	control: Control<FormDataFilter>;
 }
 

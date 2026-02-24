@@ -6,6 +6,9 @@ import { FC } from 'react';
 
 import { SUBTITLES_AUTH, TITLES_AUTH } from '../constants';
 
+import { Confirm } from './Confirm';
+import { NewPass } from './NewPass';
+import { Restore } from './Restore';
 import { SignIn } from './SignIn';
 import { SignUp } from './SignUp';
 import { HStack, VStack } from '@/shared/ui/box';
@@ -18,6 +21,9 @@ type TPathKey = keyof typeof PATHNAME_COMPONENT;
 const PATHNAME_COMPONENT: Record<string, FC<IAuthComponentProps>> = {
 	auth: SignIn,
 	registr: SignUp,
+	confirm: Confirm,
+	restore: Restore,
+	newpass: NewPass,
 } as const;
 
 export const WrapperAuth: FC = () => {
@@ -31,7 +37,9 @@ export const WrapperAuth: FC = () => {
 				? TITLES_AUTH.registration
 				: pathname === '/restore'
 					? TITLES_AUTH.restore
-					: '';
+					: pathname === '/newpass'
+						? TITLES_AUTH.newpass
+						: TITLES_AUTH.confirm;
 
 	const href =
 		title === TITLES_AUTH.auth
@@ -61,9 +69,9 @@ export const WrapperAuth: FC = () => {
 			<h1 className='font-black font-intro my-3.5 ml-2.5 sm:ml-5 md:ml-7.5 xl:ml-15 uppercase text-3xl xl:text-4xl'>
 				{title}
 			</h1>
-			<div className='flex items-center justify-center flex-col flex-1'>
-				<VStack className='bg-white rounded-xl shadow-custom-green pt-7.5 px-10 pb-10 max-h-[70vh]'>
-					<HStack className='border-b border-dotted border-b-border-dotted pb-5 xl:pb-7 justify-between gap-32 xl:gap-36'>
+			<div className='flex items-center justify-center flex-col flex-1 px-2.5'>
+				<VStack className='bg-white rounded-xl shadow-custom-green pt-7.5 px-2 sm:px-10 w-full sm:w-auto pb-10 max-h-[70vh]'>
+					<HStack className='border-b border-dotted border-b-border-dotted pb-5 xl:pb-7 justify-between w-full gap-5 xl:gap-7'>
 						<h2 className='font-bold text-xl xl:text-2xl'>{title}</h2>
 						<Link
 							href={href}

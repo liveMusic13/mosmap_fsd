@@ -2,7 +2,6 @@ import { IPlace } from '@/entities/place/types';
 
 export type TUrl = 'query' | 'seo';
 
-//TODO: Пока оставляю тут типизацию кнопки хедера для перехода по ссылке
 export interface ILinkButtonInMapPageData {
 	image_full: string;
 	image_min: string;

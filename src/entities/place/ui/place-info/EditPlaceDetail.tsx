@@ -17,7 +17,12 @@ export const EditPlaceDetail: FC<IProps> = ({ title, value, el, options }) => {
 
 	if (el === 'input') {
 		return (
-			<Input label={title} className='text-primary' {...register(title)} />
+			<Input
+				label={title}
+				fullWidth
+				className='text-primary'
+				{...register(title)}
+			/>
 		);
 	} else if (el === 'select') {
 		const transformOptions =

@@ -10,9 +10,19 @@ interface IProps {
 	options: ISelectOptions[];
 	value?: number;
 	onChange?: (value: number) => void;
+	classSelect?: string;
+	classText?: string;
+	position?: 'static' | 'absolute';
 }
 
-const Select: FC<IProps> = ({ options, onChange, value }) => {
+const Select: FC<IProps> = ({
+	options,
+	onChange,
+	value,
+	classSelect,
+	classText,
+	position,
+}) => {
 	const selectRef = useRef<HTMLDivElement>(null);
 
 	const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -30,13 +40,12 @@ const Select: FC<IProps> = ({ options, onChange, value }) => {
 	};
 
 	return (
-		<div className='flex flex-col gap-1' ref={selectRef}>
+		<div className={`flex flex-col gap-1 relative`} ref={selectRef}>
 			<div
-				className='bg-linear-to-b from-white to-[#f2f5fa] flex items-center justify-between rounded-sm border border-[#E1E6ED] p-1.5 xl:p-2.5 hover:cursor-pointer hover:border-primary transition-colors'
+				className={`bg-linear-to-b from-white to-[#f2f5fa] flex items-center justify-between rounded-sm border border-[#E1E6ED] p-1.5 xl:p-2.5 hover:cursor-pointer hover:border-primary transition-colors ${classSelect}`}
 				onClick={handleOpenOptions}
 			>
-				<span className='text-xs xl:text-sm'>
-					{/* {selectTarget} */}
+				<span className={`text-xs xl:text-sm ${classText}`}>
 					{selectedOption?.name ?? 'Выберите значение'}
 				</span>
 				<Image
@@ -47,7 +56,9 @@ const Select: FC<IProps> = ({ options, onChange, value }) => {
 				/>
 			</div>
 			{isOpen && (
-				<div className='max-h-32 scrollbar-custom overflow-x-hidden overflow-y-auto bg-light-blue border border-border-gray rounded-sm p-0.5 xl:p-1.5 flex flex-col gap-0.5'>
+				<div
+					className={`max-h-32 scrollbar-custom overflow-x-hidden overflow-y-auto bg-light-blue border border-border-gray rounded-sm p-0.5 xl:p-1.5 flex flex-col gap-0.5 ${position === 'absolute' ? 'absolute top-[110%] z-9999 w-full' : 'relative'}`}
+				>
 					{options.map((opt, ind) => (
 						<p
 							key={`${opt.value}${ind}`}

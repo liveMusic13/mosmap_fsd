@@ -1,37 +1,29 @@
 'use client';
 
-import { useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
 import { MobilePanel } from './MobilePanel';
 import { Panel } from './Panel';
 import { useTargetPlaceIdStore } from '@/entities/place';
-import { useGetMapPageData } from '@/shared/hooks/api-hooks/useGetMapPageData';
-import { useGetSeoOrQueryParam } from '@/shared/hooks/useGetSeoOrQueryParam';
-import { buildQueryParams } from '@/shared/lib/url';
+import { useGetMapForOtherPage } from '@/shared/hooks/useGetMapForOtherPage';
 import {
 	useViewBlocksStore,
 	useViewPaintingOfAreaStore,
 } from '@/shared/store/panelOptions.store';
+import { ILinkButtonInMapPageData } from '@/shared/types/api.types';
 
-export const WrapperPanel: FC = () => {
+interface IProps {
+	buttons: ILinkButtonInMapPageData[];
+}
+
+export const WrapperPanel: FC<IProps> = ({ buttons }) => {
 	const targetPlaceId = useTargetPlaceIdStore(store => store.id);
 	const view = useViewBlocksStore(store => store.view);
 	const isViewPaintingOfArea = useViewPaintingOfAreaStore(
 		store => store.isView,
 	);
 
-	const mapOrSeoUrl = useGetSeoOrQueryParam();
-	const searchParams = useSearchParams();
-
-	const queryString = buildQueryParams(
-		mapOrSeoUrl.type,
-		searchParams,
-		mapOrSeoUrl.result,
-	);
-
-	const { data } = useGetMapPageData(queryString);
-	const map = String(data?.map);
+	const map = useGetMapForOtherPage();
 
 	return (
 		<>
@@ -40,11 +32,14 @@ export const WrapperPanel: FC = () => {
 				view={view}
 				isViewPaintingOfArea={isViewPaintingOfArea}
 				map={map}
+				buttons={buttons}
 			/>
 			<Panel
 				targetPlaceId={targetPlaceId}
 				view={view}
 				isViewPaintingOfArea={isViewPaintingOfArea}
+				map={map}
+				buttons={buttons}
 			/>
 		</>
 	);

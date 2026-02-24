@@ -6,7 +6,6 @@ import { SUBTITLES_AUTH } from '../constants';
 import { useSignIn } from '../hooks/useSignIn';
 
 import Button from '@/shared/ui/Button';
-import { HStack } from '@/shared/ui/box';
 import { Checkbox } from '@/shared/ui/checkbox';
 import { Input } from '@/shared/ui/fields';
 
@@ -34,8 +33,8 @@ export const SignIn: FC = () => {
 
 	return (
 		<form
-			className='flex flex-col gap-2.5 bg-light-blue border-2 border-light-blue w-full mt-3.5 rounded-xl p-9 overflow-y-auto
-    max-h-full scrollbar-custom'
+			className='flex flex-col gap-2.5 bg-light-blue border-2 border-light-blue w-full mt-3.5 rounded-xl p-2 sm:p-9 overflow-y-auto
+     sm:max-h-full scrollbar-custom'
 			onSubmit={handleSubmit(onSubmit)}
 		>
 			<Input
@@ -56,7 +55,7 @@ export const SignIn: FC = () => {
 				fullWidth
 				className='bg-white h-16.5 text-[1rem] xl:text-lg'
 			/>
-			<HStack className='justify-between '>
+			<div className='flex flex-col sm:flex-row sm:flex-wrap justify-between gap-5 sm:gap-2 sm:items-center'>
 				<Checkbox label='Показать пароль' />
 				<Link
 					href='/restore'
@@ -64,7 +63,17 @@ export const SignIn: FC = () => {
 				>
 					{SUBTITLES_AUTH.restore}
 				</Link>
-			</HStack>
+			</div>
+
+			{/* <HStack className=' justify-between'>
+				<Checkbox label='Показать пароль' />
+				<Link
+					href='/restore'
+					className='font-medium text-text-blue text-sm hover:text-text-black transition-colors'
+				>
+					{SUBTITLES_AUTH.restore}
+				</Link>
+			</HStack> */}
 			<Button className='mt-3.5' disabled={isDisabledButton}>
 				Войти
 			</Button>

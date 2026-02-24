@@ -107,7 +107,7 @@ export const ButtonsEdit: FC<IProps> = ({ place, targetPlaceId }) => {
 						<Button
 							key={but.id}
 							variant={variant}
-							className={`${but.id === 0 ? 'h-7! w-fit!' : ''}`}
+							className={`${but.id === 0 ? 'h-7! w-auto!' : ''}`}
 							onClick={() => onClick(but.id)}
 						>
 							{but.title}
@@ -121,14 +121,14 @@ export const ButtonsEdit: FC<IProps> = ({ place, targetPlaceId }) => {
 					<div className='flex items-center justify-center gap-2'>
 						<Button
 							variant='transparent'
-							className='w-fit! h-7! text-text-red'
+							className='w-auto! h-7! text-text-red'
 							onClick={handleDeletePlace}
 						>
 							Удалить
 						</Button>
 						<Button
 							variant='green'
-							className='w-fit! h-7!'
+							className='w-auto! h-7!'
 							onClick={() => setIsPopup(false)}
 						>
 							Назад

@@ -44,7 +44,7 @@ export const PlaceInfoWidget: FC = () => {
 		<div className='flex flex-col gap-2 min-h-0 flex-1'>
 			{/* HELP: Провайдер работает для 2 фич: создание объекта и редактирование объекта. Ставим ключ для провайдера чтобы при смене режима, провайдер размонтировался и значения полей сбрасывались. Это нужно чтобы после просмотра или редактировании какого-то объекта, при создании новго объекта дефолтно все поля были пустыми, а не принимали значения от предыдущего объекта. */}
 			<PlaceFormProvider key={view}>
-				<div className='shadow-custom-black w-56 xl:w-sm rounded-xl py-3 px-2 xl:py-5 xl:px-4 flex flex-col gap-3 h-fit max-h-full min-h-0'>
+				<div className='shadow-custom-black w-full sm:w-56 xl:w-sm rounded-xl py-3 px-2 xl:py-5 xl:px-4 flex flex-col gap-3 h-fit max-h-full min-h-0'>
 					<div className='flex items-center justify-between shrink-0'>
 						<h3 className='font-bold text-xl xl:text-[1.38rem]'>
 							{view === 'area-info'
@@ -55,7 +55,7 @@ export const PlaceInfoWidget: FC = () => {
 										? 'Добавление объекта'
 										: 'Ошибка'}
 						</h3>
-						<Button variant='icon' className='w-fit!' onClick={handleReset}>
+						<Button variant='icon' className='w-auto!' onClick={handleReset}>
 							<Image
 								src={'/images/icons/exit.svg'}
 								alt='exit'

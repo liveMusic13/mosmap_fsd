@@ -32,9 +32,8 @@ export default async function MobileFilters({
 			<h1 className='uppercase text-xl sm:text-4xl font-intro'>
 				{response.title}
 			</h1>
-			<WrapperPanel />
+			<WrapperPanel buttons={response.buttons ?? []} />
 			<WrapperFilterContainer />
-			{/* <WrapperAllMapContainerMobile places={response.points ?? []} /> */}
 		</div>
 	);
 }

@@ -60,7 +60,7 @@ export default async function Home({
 			<h1 className='uppercase text-xl sm:text-4xl font-intro'>
 				{response.title}
 			</h1>
-			<WrapperPanel />
+			<WrapperPanel buttons={response.buttons ?? []} />
 			<WrapperAllMapContent places={response.points ?? []} />
 		</div>
 	);
