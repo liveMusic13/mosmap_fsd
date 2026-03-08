@@ -5,6 +5,7 @@ export interface IObjectOne {
 	address: number;
 	name: string;
 	namefield: number;
+	nameonmap: number;
 	priority: number;
 	type: TTypeObject;
 	type_name: string;
@@ -27,4 +28,11 @@ export interface IObjectThree {
 	type: TTypeObject;
 	mode: number;
 	visible: number;
+}
+
+export interface IRowAdditional {
+	color?: string;
+	icon_name?: string;
+	id: number;
+	name: string;
 }

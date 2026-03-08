@@ -9,3 +9,11 @@ export const getAllFields = async (): Promise<
 
 	return response.data;
 };
+
+export const saveAllFields = async (
+	data: (IObjectOne | IObjectTwo | IObjectThree)[],
+): Promise<(IObjectOne | IObjectTwo | IObjectThree)[]> => {
+	const response = await axios.post(`/api/settings/database`, data);
+
+	return response.data;
+};

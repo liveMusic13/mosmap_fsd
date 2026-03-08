@@ -46,13 +46,6 @@ export default async function Home({
 
 	const queryParams = buildQueryParams('query', await searchParams, map);
 
-	if (!map)
-		return (
-			<div className='flex items-center justify-center flex-1'>
-				<p>Карта не выбрана</p>
-			</div>
-		);
-
 	const response = await getMapPageData(queryParams);
 
 	return (
@@ -61,7 +54,10 @@ export default async function Home({
 				{response.title}
 			</h1>
 			<WrapperPanel buttons={response.buttons ?? []} />
-			<WrapperAllMapContent places={response.points ?? []} />
+			<WrapperAllMapContent
+				places={response.points ?? []}
+				isClearMap={response.isClear}
+			/>
 		</div>
 	);
 }

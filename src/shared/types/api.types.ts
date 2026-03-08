@@ -28,4 +28,6 @@ export interface IMapPageData {
 	url: string;
 	zoom_max: number;
 	zoom_min: number;
+
+	isClear?: boolean;
 }

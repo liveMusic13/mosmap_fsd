@@ -1,6 +1,8 @@
 'use client';
 
-import { FC, Suspense, useEffect } from 'react';
+import { FC, Suspense } from 'react';
+
+import { useInitialViewBlocks } from '../hooks/useInitialViewBlocks';
 
 import { IPlace } from '@/entities/place/types';
 import WrapperFilters from '@/features/filters-map/ui/WrapperFilters';
@@ -17,21 +19,17 @@ import { PlaceInfoWidget } from '@/widgets/place-info';
 
 interface IProps {
 	places: IPlace[];
+	isClearMap: boolean | undefined;
 }
 //HELP: Важно: клиентские компоненты надо импортировать не через index.ts а напрямую. иначе они заранее подтягиваются и будут вызывать ошибку "window is undefined"
-const WrapperAllMapContent: FC<IProps> = ({ places }) => {
+const WrapperAllMapContent: FC<IProps> = ({ places, isClearMap }) => {
 	const view = useViewBlocksStore(store => store.view);
 	const isViewLists = useViewListsStore(store => store.isView);
 	const isViewPaintingOfArea = useViewPaintingOfAreaStore(
 		store => store.isView,
 	);
 
-	useEffect(() => {
-		useViewBlocksStore.getState().initialize();
-	}, []);
-	useEffect(() => {
-		useViewListsStore.getState().initialize();
-	}, []);
+	useInitialViewBlocks(isClearMap);
 
 	return (
 		<div className='flex flex-col sm:flex-row min-h-0 min-w-0 flex-1 gap-3'>

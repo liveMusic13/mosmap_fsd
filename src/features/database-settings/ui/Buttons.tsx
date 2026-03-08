@@ -15,7 +15,7 @@ const createEmptyRow = (priority: number): ITableRow => ({
 	name: '',
 	priority,
 	type: 0,
-
+	id_current: Date.now(),
 	namefield: false,
 	nameonmap: false,
 	address: false,

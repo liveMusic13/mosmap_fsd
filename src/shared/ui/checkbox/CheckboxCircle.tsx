@@ -2,7 +2,9 @@
 
 import { FC, InputHTMLAttributes } from 'react';
 
-interface IProps extends InputHTMLAttributes<HTMLInputElement> {}
+interface IProps extends InputHTMLAttributes<HTMLInputElement> {
+	onChange: any;
+}
 
 export const CheckboxCircle: FC<IProps> = ({
 	checked = false,
