@@ -62,7 +62,7 @@ const Select: FC<IProps> = ({
 					{options.map((opt, ind) => (
 						<p
 							key={`${opt.value}${ind}`}
-							className={`hover:bg-white transition-colors hover:cursor-pointer ${
+							className={`text-xl sm:text-xs hover:bg-white transition-colors hover:cursor-pointer ${
 								Number(opt.value) === Number(value)
 									? 'bg-white font-semibold'
 									: '' // ✅ Подсветка выбранного

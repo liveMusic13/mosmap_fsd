@@ -35,7 +35,7 @@ export default async function RootLayout({
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
-	const token = (await cookies()).get(TOKEN_COOKIE_NAME)?.value; //TODO: Сейчас токен просто получается и далее мы его в кнопке шапки проверяем на наличие а не валидность. Если истек ничего не измениться, поэтому потом сделать проверку на валидность.
+	const token = (await cookies()).get(TOKEN_COOKIE_NAME)?.value;
 
 	return (
 		<html lang='ru' className={`${inter.variable} ${intro.variable}`}>

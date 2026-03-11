@@ -1,5 +1,5 @@
-import { useEffect } from 'react';
-import { useFieldArray, useForm, useWatch } from 'react-hook-form';
+import { useEffect, useState } from 'react';
+import { useFieldArray, useForm } from 'react-hook-form';
 
 import { IObjectOne, IObjectThree, IObjectTwo, TTypeObject } from '../types';
 
@@ -48,6 +48,8 @@ export const useFormTable = (
 		visible: 'visible' in row ? row.visible === 1 : false,
 	});
 
+	const [isNavigating, setIsNavigating] = useState(false); //HELP: Добавляем этот флаг для того чтобы контролировать сохранение через кнопку "сохранить". без него по нажатию на эту кнопку не будет переадресовывать на главную страницу
+
 	const methods = useForm<ITableForm>({
 		defaultValues: {
 			rows: [],
@@ -60,7 +62,13 @@ export const useFormTable = (
 		name: 'rows',
 	});
 
-	const { mutate } = useSaveAllFields();
+	const { mutate, isPending, isError, data } = useSaveAllFields();
+
+	useEffect(() => {
+		if (isError) {
+			setIsNavigating(false);
+		}
+	}, [isError, data]);
 
 	useEffect(() => {
 		if (initialData.length) {
@@ -89,9 +97,8 @@ export const useFormTable = (
 		methods.setValue('rows', updatedRows);
 	};
 
-	console.log(useWatch({ control: methods.control }));
 	const onSubmit = (data: ITableForm) => {
-		console.log('SUBMIT:', data);
+		setIsNavigating(true);
 		const editData: (IObjectOne | IObjectTwo | IObjectThree)[] = data.rows.map(
 			row => {
 				const typeRow: Record<number, string> = {
@@ -105,7 +112,8 @@ export const useFormTable = (
 				switch (type_name) {
 					case 'Строка': {
 						return {
-							id: row.id_current,
+							// id: row.id_current,
+							id: 0,
 							name: row.name,
 							priority: row.priority,
 							namefield: row.namefield ? 1 : 0,
@@ -117,7 +125,8 @@ export const useFormTable = (
 					}
 					case 'Число': {
 						return {
-							id: row.id_current,
+							// id: row.id_current,
+							id: 0,
 							name: row.name,
 							priority: row.priority,
 							namefield: row.namefield ? 1 : 0,
@@ -129,7 +138,8 @@ export const useFormTable = (
 					}
 					case 'Текст': {
 						return {
-							id: row.id_current,
+							// id: row.id_current,
+							id: 0,
 							name: row.name,
 							priority: row.priority,
 							namefield: row.namefield ? 1 : 0,
@@ -141,7 +151,8 @@ export const useFormTable = (
 					}
 					case 'Список': {
 						return {
-							id: row.id_current,
+							// id: row.id_current,
+							id: 0,
 							name: row.name,
 							priority: row.priority,
 							color: row.color ? 1 : 0,
@@ -152,7 +163,8 @@ export const useFormTable = (
 					}
 					default: {
 						return {
-							id: row.id_current,
+							// id: row.id_current,
+							id: 0,
 							name: row.name,
 							mode: row.mode ? 1 : 0,
 							priority: row.priority,
@@ -172,5 +184,8 @@ export const useFormTable = (
 		onSubmit,
 		moveRow,
 		removeRow,
+		isPendingSave: isPending,
+		isDirty: methods.formState.isDirty,
+		isNavigating,
 	};
 };

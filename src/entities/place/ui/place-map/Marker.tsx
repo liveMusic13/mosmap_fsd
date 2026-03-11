@@ -12,21 +12,22 @@ import IconMarker from '@/shared/ui/IconMarker';
 interface IProp {
 	mark: IPlace;
 	targetId: number;
+	sizeMarker: [number, number];
 }
 
-export const Marker: FC<IProp> = ({ mark, targetId }) => {
+export const Marker: FC<IProp> = ({ mark, targetId, sizeMarker }) => {
 	const onClickPlace = useClickPlaceInMap();
 
 	let customMarkerIcon;
 	if (targetId === mark.id) {
 		customMarkerIcon = divIcon({
 			className: 'my-custom-icon',
-			iconSize: [22, 22],
+			iconSize: sizeMarker,
 			html: renderToStaticMarkup(
 				<IconMarker
 					key={mark.id}
 					mark={{ ...mark, icon: 'target', color: 'var(--text-red)' }}
-					size={[22, 22]}
+					size={sizeMarker}
 					target={true}
 				/>,
 			),
@@ -34,9 +35,9 @@ export const Marker: FC<IProp> = ({ mark, targetId }) => {
 	} else {
 		customMarkerIcon = divIcon({
 			className: 'my-custom-icon',
-			iconSize: [22, 22],
+			iconSize: sizeMarker,
 			html: renderToStaticMarkup(
-				<IconMarker key={mark.id} mark={mark} size={[22, 22]} />,
+				<IconMarker key={mark.id} mark={mark} size={sizeMarker} />,
 			),
 		});
 	}

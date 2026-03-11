@@ -14,7 +14,7 @@ export const CheckboxCircle: FC<IProps> = ({
 }) => {
 	return (
 		<label
-			className={`block w-5 h-5 rounded-full p-0.5 cursor-pointer group 
+			className={`block w-8 h-8 sm:w-5 sm:h-5 rounded-full p-0.5 cursor-pointer group 
         ${props.disabled ? 'bg-text-disabled pointer-events-none' : 'border border-primary'}`}
 		>
 			<input

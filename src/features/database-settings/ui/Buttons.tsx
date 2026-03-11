@@ -1,3 +1,4 @@
+import { useRouter } from 'next/navigation';
 import { FC } from 'react';
 import { UseFieldArrayAppend } from 'react-hook-form';
 
@@ -28,13 +29,17 @@ const createEmptyRow = (priority: number): ITableRow => ({
 });
 
 const Buttons: FC<IProps> = ({ append, rowsCount }) => {
+	const router = useRouter();
+
+	const navSettings = () => router.push('/settings-map');
+
 	const handleAdd = () => {
 		append(createEmptyRow(rowsCount));
 	};
 
 	return (
-		<div className='flex items-center justify-between'>
-			<Button type='button' className='w-auto!'>
+		<div className='flex flex-col gap-3 sm:gap-0 sm:flex-row sm:items-center justify-between'>
+			<Button type='button' className='w-auto!' onClick={navSettings}>
 				Настройка карты
 			</Button>
 			<div className='flex items-center gap-2'>

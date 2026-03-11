@@ -15,9 +15,10 @@ import Button from '@/shared/ui/Button';
 
 interface IProps {
 	position: 'horizontal' | 'vertical';
+	handleCloseMenu?: () => void;
 }
 
-const Menu: FC<IProps> = ({ position }) => {
+const Menu: FC<IProps> = ({ position, handleCloseMenu }) => {
 	const router = useRouter();
 
 	const { token } = useCheckToken();
@@ -40,16 +41,22 @@ const Menu: FC<IProps> = ({ position }) => {
 		} else {
 			router.push('/auth');
 		}
+		handleCloseMenu?.();
 	};
 
 	return (
 		<div
-			className={`flex items-center justify-between gap-4.5 lg:gap-8.5 ${position === 'vertical' ? 'flex-col' : ''}`}
+			className={`flex items-center justify-between gap-8 sm:gap-4.5 lg:gap-8.5 ${position === 'vertical' ? 'flex-col' : ''}`}
 		>
 			{arrMenuHeader.map(el => {
 				if (el.type === 'button') {
 					return (
-						<Button key={el.id} variant='transparent' onClick={handleAuth}>
+						<Button
+							key={el.id}
+							variant='transparent'
+							className='text-lg! sm:text-sm!'
+							onClick={handleAuth}
+						>
 							{/*HELP: Если компонент ещё не смонтирован, рендерим одно и то же значение,
                     чтобы избежать рассогласования(ошибка гидратации). После монтирования покажется нужное */}
 							{isMounted ? (!!token ? 'Выход' : el.title) : 'Загрузка...'}
@@ -61,7 +68,7 @@ const Menu: FC<IProps> = ({ position }) => {
 							key={el.id}
 							href={el.link ? el.link : ''}
 							target='_blank'
-							className='font-semibold hover:text-primary transition-colors'
+							className='text-lg sm:text-sm font-semibold hover:text-primary transition-colors'
 						>
 							{el.title}
 						</Link>
@@ -70,7 +77,7 @@ const Menu: FC<IProps> = ({ position }) => {
 					return (
 						<div
 							key={el.id}
-							className='flex items-center gap-1.5 relative font-semibold hover:text-primary transition-colors hover:cursor-pointer'
+							className='flex items-center gap-1.5 text-lg sm:text-sm relative font-semibold hover:text-primary transition-colors hover:cursor-pointer'
 						>
 							<p
 								onMouseEnter={handleMouseEnter}
@@ -95,7 +102,7 @@ const Menu: FC<IProps> = ({ position }) => {
 											key={opt.id}
 											href={opt.href}
 											target='_blank'
-											className='transition-colors text-xs text-text-black px-2.5 py-4 whitespace-nowrap border-b border-b-primary last:border-0 hover:cursor-pointer hover:text-primary'
+											className='transition-colors text-sm sm:text-xs text-text-black px-2.5 py-4 whitespace-nowrap border-b border-b-primary last:border-0 hover:cursor-pointer hover:text-primary'
 										>
 											{opt.title}
 										</Link>

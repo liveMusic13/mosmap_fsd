@@ -13,7 +13,7 @@ export interface IMapPageData {
 	['all-points']: number;
 	bounds: string;
 	buttons: ILinkButtonInMapPageData[];
-	canvas_map: string;
+	canvas_map: number;
 	clastering: string;
 	color_ref: string;
 	colors: Record<string, string>;

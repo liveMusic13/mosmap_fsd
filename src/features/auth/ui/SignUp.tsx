@@ -18,7 +18,6 @@ export interface IFormSignUp {
 	description_map: string;
 }
 
-//TODO: закончить регистрацию
 export const SignUp: FC = () => {
 	const [isViewPassword, setIsViewPassword] = useState(false);
 	const [isOpen, setIsOpen] = useState(false);

@@ -47,13 +47,6 @@ export default async function HomeSeo({
 	const { slug } = await params;
 	const queryParams = buildQueryParams('seo', await searchParams, slug);
 
-	// if (!slug)
-	// 	return (
-	// 		<div className='flex items-center justify-center flex-1'>
-	// 			<p>Карта не выбрана</p>
-	// 		</div>
-	// 	);
-
 	const response = await getMapPageData(queryParams);
 
 	return (

@@ -85,12 +85,18 @@ const MapWithPlaces: FC = () => {
 						coords={[crdArea.lat, crdArea.lng]}
 					/>
 				)}
-				{data?.clastering == '2' ? (
+				{data?.clastering == '1' ? (
 					<MarkerClusterGroup chunkedLoading={true}>
-						<RenderMarkers markers={data?.points ?? []} />
+						<RenderMarkers
+							markers={data?.points ?? []}
+							isAllIcons={data?.canvas_map === 0 ? true : false}
+						/>
 					</MarkerClusterGroup>
 				) : (
-					<RenderMarkers markers={data?.points ?? []} />
+					<RenderMarkers
+						markers={data?.points ?? []}
+						isAllIcons={data?.canvas_map === 0 ? true : false}
+					/>
 				)}
 				<DynamicSelectAreaDraw />
 			</MapContainer>

@@ -10,12 +10,13 @@ import Menu from './Menu';
 import Line from '@/shared/ui/Line';
 
 const Header: FC = () => {
+	const [isOpen, setIsOpen] = useState(false);
 	const searchParams = useSearchParams();
 	const params = Object.fromEntries(searchParams.entries());
 	const paramsToString = new URLSearchParams(params).toString();
 
-	//TODO:сделать потом нормальный функционал для бургер меню
-	const [test, setTest] = useState(false);
+	const handleOpenMenu = () => setIsOpen(true);
+	const handleCloseMenu = () => setIsOpen(false);
 
 	return (
 		<header
@@ -23,7 +24,7 @@ const Header: FC = () => {
 			className='bg-cover bg-center bg-no-repeat w-full h-10 sm:h-16 md:h-18 lg:h-19 xl:h-20 flex items-center justify-between px-2.5 sm:px-5 md:px-7.5 xl:px-15'
 		>
 			<div className='flex items-center lg:gap-4 xl:gap-6'>
-				<Burger isOpen={test} handleClick={() => setTest(!test)} />
+				<Burger isOpen={isOpen} handleClick={handleOpenMenu} />
 				<Link href={`/?${paramsToString}`}>
 					<Image
 						src={'/images/icons/logo.svg'}
@@ -39,6 +40,17 @@ const Header: FC = () => {
 			</div>
 			<div className='hidden sm:block'>
 				<Menu position='horizontal' />
+			</div>
+			<div
+				className={`
+          fixed inset-0 z-999999999 bg-white flex flex-col items-center justify-center transition-transform duration-300 ease-in-out sm:hidden
+          ${isOpen ? 'translate-x-0' : 'translate-x-full sm:translate-x-100'}
+        `}
+			>
+				<div className='absolute top-2 left-2 '>
+					<Burger isOpen={isOpen} handleClick={handleCloseMenu} />
+				</div>
+				<Menu position='vertical' handleCloseMenu={handleCloseMenu} />
 			</div>
 		</header>
 	);
