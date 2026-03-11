@@ -30,7 +30,7 @@ export const getMapPageData = async (
 			'all-points': 0,
 			bounds: '[[null, null], [null, null]]',
 			clastering: '0',
-			canvas_map: '0',
+			canvas_map: 0,
 			map: 0,
 			icons_ref: '',
 			color_ref: '',
