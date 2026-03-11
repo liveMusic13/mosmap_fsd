@@ -21,7 +21,7 @@ const Header: FC = () => {
 	return (
 		<header
 			style={{ backgroundImage: "url('/images/header_image.png')" }}
-			className='bg-cover bg-center bg-no-repeat w-full h-10 sm:h-16 md:h-18 lg:h-19 xl:h-20 flex items-center justify-between px-2.5 sm:px-5 md:px-7.5 xl:px-15'
+			className='bg-cover bg-center bg-no-repeat w-full h-10 sm:h-16 lg:h-14 xl:h-20 flex items-center justify-between px-2.5 sm:px-4 xl:px-15'
 		>
 			<div className='flex items-center lg:gap-4 xl:gap-6'>
 				<Burger isOpen={isOpen} handleClick={handleOpenMenu} />
@@ -32,7 +32,7 @@ const Header: FC = () => {
 						width={178} //HELP: минимальный размер для оптимизации
 						height={39} //HELP: должен быть в тех же пропорциях, что и изображение
 						priority={true} //HELP: чтобы первым отрисовывалось
-						className='-mb-1 sm:-mb-2.5 w-32 sm:w-44.5'
+						className='-mb-1 sm:-mb-2.5 w-32 sm:w-35.5'
 					/>
 				</Link>
 				<Line className='hidden lg:block' />
