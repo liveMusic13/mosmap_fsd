@@ -3,6 +3,7 @@ import { ChangeEvent, FC, Fragment, useState } from 'react';
 
 import { IGroupOrganization } from '../types';
 
+import { useAvailabilityZoneStore } from '@/entities/place/store/availabilityZone';
 import { Checkbox } from '@/shared/ui/checkbox';
 
 interface IProps {
@@ -13,9 +14,22 @@ const titleTable = ['Название', 'Расстояние (м)'];
 
 const GroupOrganization: FC<IProps> = ({ orgGroup }) => {
 	const [isOpen, setIsOpen] = useState(false);
+	const {
+		idAvailabilityZone,
+		setAllIdAvailabilityZone,
+		setIdAvailabilityZone,
+		setIdAvailabilityZoneNoToggle,
+	} = useAvailabilityZoneStore();
 
-	const onChange = (e: ChangeEvent<HTMLInputElement>) =>
+	// useEffect(
+	// 	() => console.log('idAvailabilityZone', idAvailabilityZone),
+	// 	[idAvailabilityZone],
+	// );
+
+	const onChange = (e: ChangeEvent<HTMLInputElement>) => {
 		setIsOpen(e.target.checked);
+		setIdAvailabilityZone(Number(orgGroup.group_id));
+	};
 	const handleOpen = () => setIsOpen(p => !p);
 
 	return (

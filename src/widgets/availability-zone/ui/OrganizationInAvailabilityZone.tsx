@@ -1,29 +1,34 @@
 import Image from 'next/image';
-import { Dispatch, FC, SetStateAction } from 'react';
+import { FC } from 'react';
 
 import { useGetAvailabilityZone } from '../hooks/useGetAvailabilityZone';
 
 import GroupOrganization from './GroupOrganization';
 import { useCrdAreaStore, useTargetPlaceIdStore } from '@/entities/place';
+import { useViewAvailabilityZoneStore } from '@/entities/place/store/availabilityZone';
 import Button from '@/shared/ui/Button';
 import { Loader } from '@/shared/ui/loader';
 
 interface IProps {
-	setViewOrganizationInAvailabilityZone: Dispatch<SetStateAction<boolean>>;
+	closeInAvailabilityZone: () => void;
 }
 
 const OrganizationInAvailabilityZone: FC<IProps> = ({
-	setViewOrganizationInAvailabilityZone,
+	closeInAvailabilityZone,
 }) => {
 	const idTargetPlace = useTargetPlaceIdStore(store => store.id);
 	const crdArea = useCrdAreaStore(store => store.crd);
+	const isViewAvailabilityZone = useViewAvailabilityZoneStore(
+		store => store.isView,
+	);
 	const { data, isSuccess, isLoading } = useGetAvailabilityZone({
 		id: idTargetPlace,
 		lat: crdArea?.lat,
 		lng: crdArea?.lng,
+		isViewAvailabilityZone,
 	});
 
-	const handleClose = () => setViewOrganizationInAvailabilityZone(false);
+	const handleClose = () => closeInAvailabilityZone();
 
 	return (
 		<div className='max-h-1/3 min-h-0 flex flex-col gap-1 border border-dotted border-t-0 border-text-disabled'>

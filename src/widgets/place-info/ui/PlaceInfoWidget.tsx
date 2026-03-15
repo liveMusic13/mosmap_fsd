@@ -2,11 +2,12 @@
 
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
-import { FC, useState } from 'react';
+import { FC } from 'react';
 
 import { useCheckToken } from '@/app/providers/TokenProvider';
 import { PlaceFormProvider } from '@/entities/place';
 import { useGetDetailsPlace } from '@/entities/place/hooks/useGetDetailsPlace';
+import { useViewAvailabilityZoneStore } from '@/entities/place/store/availabilityZone';
 import { useTargetPlaceIdStore } from '@/entities/place/store/targetPlace.store';
 import { AreaDetails, NewPlaceDetails } from '@/features/create-place';
 import { ButtonsCreate } from '@/features/create-place/ui/ButtonsCreate';
@@ -28,10 +29,16 @@ export const PlaceInfoWidget: FC = () => {
 	const closeView = useViewBlocksStore(store => store.closeView);
 	const targetPlaceId = useTargetPlaceIdStore(store => store.id);
 	const clearId = useTargetPlaceIdStore(store => store.clearId);
-	const [
-		viewOrganizationInAvailabilityZone,
-		setViewOrganizationInAvailabilityZone,
-	] = useState(false);
+	// const [
+	// 	viewOrganizationInAvailabilityZone,
+	// 	setViewOrganizationInAvailabilityZone,
+	// ] = useState(false);
+	const {
+		close,
+		isView: viewOrganizationInAvailabilityZone,
+		open,
+		toggle,
+	} = useViewAvailabilityZoneStore();
 
 	const { isLoading, data } = useGetDetailsPlace(targetPlaceId);
 	const { token } = useCheckToken();
@@ -70,18 +77,10 @@ export const PlaceInfoWidget: FC = () => {
 						</Button>
 					</div>
 					{view !== 'create-place' && (
-						<PanelPlace
-							setViewOrganizationInAvailabilityZone={
-								setViewOrganizationInAvailabilityZone
-							}
-						/>
+						<PanelPlace toggleAvailabilityZone={toggle} />
 					)}
 					{viewOrganizationInAvailabilityZone && (
-						<OrganizationInAvailabilityZone
-							setViewOrganizationInAvailabilityZone={
-								setViewOrganizationInAvailabilityZone
-							}
-						/>
+						<OrganizationInAvailabilityZone closeInAvailabilityZone={close} />
 					)}
 					{view !== 'place-info' ? null : token ? (
 						<EditPlaceDetails />

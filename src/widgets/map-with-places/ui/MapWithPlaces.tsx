@@ -4,7 +4,7 @@ import { type LatLngExpression } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import dynamic from 'next/dynamic';
 import { useSearchParams } from 'next/navigation';
-import { FC } from 'react';
+import { FC, useMemo } from 'react';
 import { MapContainer, TileLayer } from 'react-leaflet';
 import MarkerClusterGroup from 'react-leaflet-cluster';
 
@@ -54,6 +54,7 @@ const MapWithPlaces: FC = () => {
 		mapOrSeoUrl.result,
 	);
 	const { data, isLoading } = useGetMapPageData(queryString);
+	const markers = useMemo(() => data?.points ?? [], [data?.points]);
 	const zoomLevel = useZoomLevelStore(store => store.zoomLevel);
 	const crdArea = useCrdAreaStore(store => store.crd);
 
@@ -85,16 +86,16 @@ const MapWithPlaces: FC = () => {
 						coords={[crdArea.lat, crdArea.lng]}
 					/>
 				)}
-				{data?.clastering == '1' ? (
+				{data?.clastering == '2' ? (
 					<MarkerClusterGroup chunkedLoading={true}>
 						<RenderMarkers
-							markers={data?.points ?? []}
+							markers={markers}
 							isAllIcons={data?.canvas_map === 0 ? true : false}
 						/>
 					</MarkerClusterGroup>
 				) : (
 					<RenderMarkers
-						markers={data?.points ?? []}
+						markers={markers}
 						isAllIcons={data?.canvas_map === 0 ? true : false}
 					/>
 				)}

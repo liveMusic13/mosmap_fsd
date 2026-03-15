@@ -11,8 +11,16 @@ export const useVisibleMarkers = (markers: IPlace[]) => {
 	useEffect(() => {
 		if (!map) return;
 
+		// const updateBounds = () => {
+		// 	setBounds(map.getBounds());
+		// };
 		const updateBounds = () => {
-			setBounds(map.getBounds());
+			setBounds(prev => {
+				const next = map.getBounds();
+				// Не обновляем если bounds не изменились
+				if (prev && prev.equals(next)) return prev;
+				return next;
+			});
 		};
 
 		updateBounds();

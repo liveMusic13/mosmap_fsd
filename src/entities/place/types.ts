@@ -48,3 +48,19 @@ export interface IMoveMarkerStore {
 	setCrd: (crd: number[]) => void;
 	clearCrd: () => void;
 }
+
+export interface IViewAvailabilityZoneStore {
+	isView: boolean;
+	open: () => void;
+	close: () => void;
+	toggle: () => void;
+}
+
+export interface IAvailabilityZoneStore {
+	organizationIdAvailabilityZone: string;
+	idAvailabilityZone: number[];
+	setIdAvailabilityZone: (id: number) => void;
+	setAllIdAvailabilityZone: (id: number[]) => void;
+	setIdAvailabilityZoneNoToggle: (id: number) => void;
+	setOrganizationIdAvailabilityZone: (id: string) => void;
+}
