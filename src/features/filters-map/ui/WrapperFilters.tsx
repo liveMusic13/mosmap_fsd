@@ -101,7 +101,8 @@ const WrapperFilters: FC = () => {
 	};
 
 	return (
-		<div className='shadow-custom-black w-full sm:w-56 xl:w-sm rounded-xl py-3 px-2 xl:py-5 xl:px-4 flex flex-col gap-3 h-full min-h-0'>
+		// <div className='shadow-custom-black w-full sm:w-56 xl:w-sm rounded-xl py-3 px-2 xl:py-5 xl:px-4 flex flex-col gap-3 h-full min-h-0'>
+		<div className='shadow-custom-black w-full sm:w-56 xl:w-sm rounded-xl py-3 px-2 xl:py-5 xl:px-4 flex flex-col gap-3 h-full max-h-full flex-1 min-h-0'>
 			<div className='flex items-center justify-between mb-2.5'>
 				<h3 className='font-bold text-xl xl:text-[1.38rem]'>Фильтры</h3>
 				<Button

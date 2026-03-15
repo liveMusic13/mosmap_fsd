@@ -1,7 +1,7 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
-import { FC, useEffect } from 'react';
+import { Dispatch, FC, SetStateAction, useEffect } from 'react';
 
 import { usePopups } from '../hooks/usePopups';
 
@@ -51,7 +51,13 @@ export const arrMenuPlace = [
 	},
 ];
 
-export const PanelPlace: FC = () => {
+interface IProps {
+	setViewOrganizationInAvailabilityZone: Dispatch<SetStateAction<boolean>>;
+}
+
+export const PanelPlace: FC<IProps> = ({
+	setViewOrganizationInAvailabilityZone,
+}) => {
 	const searchParams = useSearchParams();
 	const { token } = useCheckToken();
 	const targetPlaceId = useTargetPlaceIdStore(store => store.id);
@@ -91,6 +97,8 @@ export const PanelPlace: FC = () => {
 			setCenterMap(data?.crd || CENTER_MAP_CRD);
 		} else if (butId === 1) {
 			setIsPopup(true);
+		} else if (butId === 2) {
+			setViewOrganizationInAvailabilityZone(p => !p);
 		}
 	};
 

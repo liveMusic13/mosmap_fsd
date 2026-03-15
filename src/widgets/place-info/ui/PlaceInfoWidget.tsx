@@ -2,7 +2,7 @@
 
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 
 import { useCheckToken } from '@/app/providers/TokenProvider';
 import { PlaceFormProvider } from '@/entities/place';
@@ -16,6 +16,7 @@ import { PlaceDetails } from '@/features/place-details';
 import { useViewBlocksStore } from '@/shared/store/panelOptions.store';
 import Button from '@/shared/ui/Button';
 import { Loader } from '@/shared/ui/loader/Loader';
+import OrganizationInAvailabilityZone from '@/widgets/availability-zone/ui/OrganizationInAvailabilityZone';
 
 const DynamicLoaderPortal = dynamic(
 	() => import('@/shared/ui/loader/LoaderPortal').then(mod => mod.LoaderPortal),
@@ -27,6 +28,10 @@ export const PlaceInfoWidget: FC = () => {
 	const closeView = useViewBlocksStore(store => store.closeView);
 	const targetPlaceId = useTargetPlaceIdStore(store => store.id);
 	const clearId = useTargetPlaceIdStore(store => store.clearId);
+	const [
+		viewOrganizationInAvailabilityZone,
+		setViewOrganizationInAvailabilityZone,
+	] = useState(false);
 
 	const { isLoading, data } = useGetDetailsPlace(targetPlaceId);
 	const { token } = useCheckToken();
@@ -64,7 +69,20 @@ export const PlaceInfoWidget: FC = () => {
 							/>
 						</Button>
 					</div>
-					{view !== 'create-place' && <PanelPlace />}
+					{view !== 'create-place' && (
+						<PanelPlace
+							setViewOrganizationInAvailabilityZone={
+								setViewOrganizationInAvailabilityZone
+							}
+						/>
+					)}
+					{viewOrganizationInAvailabilityZone && (
+						<OrganizationInAvailabilityZone
+							setViewOrganizationInAvailabilityZone={
+								setViewOrganizationInAvailabilityZone
+							}
+						/>
+					)}
 					{view !== 'place-info' ? null : token ? (
 						<EditPlaceDetails />
 					) : (

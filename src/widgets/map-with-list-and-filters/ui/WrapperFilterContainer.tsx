@@ -30,8 +30,9 @@ const WrapperFilterContainer: FC = () => {
 	const handleBack = () => router.back();
 
 	return (
-		<div className='overflow-hidden'>
-			<Button className='mb-3 w-auto!' onClick={handleBack}>
+		// <div className='overflow-hidden'>
+		<div className='overflow-hidden min-h-0 flex-1 flex flex-col'>
+			<Button className='mb-3 w-auto! max-w-30' onClick={handleBack}>
 				Назад
 			</Button>
 			{view === 'filters' && <WrapperFilters />}

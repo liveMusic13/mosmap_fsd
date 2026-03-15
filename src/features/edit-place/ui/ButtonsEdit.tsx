@@ -89,7 +89,10 @@ export const ButtonsEdit: FC<IProps> = ({ place, targetPlaceId }) => {
 	};
 
 	const handleDeletePlace = () => {
-		if (targetPlaceId) mutate_delete(targetPlaceId);
+		if (targetPlaceId) {
+			mutate_delete(targetPlaceId);
+			setIsPopup(false);
+		}
 	};
 
 	return (
