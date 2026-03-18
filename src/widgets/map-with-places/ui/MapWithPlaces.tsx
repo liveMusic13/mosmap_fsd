@@ -58,6 +58,8 @@ const MapWithPlaces: FC = () => {
 	const zoomLevel = useZoomLevelStore(store => store.zoomLevel);
 	const crdArea = useCrdAreaStore(store => store.crd);
 
+	console.log('map-data', data);
+
 	if (isLoading) return <Loader />;
 
 	return (

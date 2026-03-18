@@ -57,7 +57,7 @@ const WrapperAllMapContent: FC<IProps> = ({ places, isClearMap }) => {
 					<PaintingOfAreas />
 				</div>
 			)}
-			<div className='flex flex-1 min-h-1/2'>
+			<div className='flex flex-1 min-h-1/2 min-w-0'>
 				<WrapperMapDynamic />
 			</div>
 			{/*HELP: Пока что не буду делать появление плашки при клики на область или объект на карте. Сейчас сразу появляется. Если вдруг надо будет сделать появление плашки и только по клику на неё отображать, то сделать появление плашки в зависимости от условия "(view === 'place-info' ||
