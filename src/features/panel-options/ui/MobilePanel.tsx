@@ -11,7 +11,10 @@ import { LinkPanel } from './LinkPanel';
 import { useCheckToken } from '@/app/providers/TokenProvider';
 import { checkMapAccess } from '@/shared/lib/decodedToken';
 import { getQueryStringForMobilePanel } from '@/shared/lib/url';
-import { useViewListsStore } from '@/shared/store/panelOptions.store';
+import {
+	useViewBlocksStore,
+	useViewListsStore,
+} from '@/shared/store/panelOptions.store';
 import { ILinkButtonInMapPageData } from '@/shared/types/api.types';
 import { TViewBlocks } from '@/shared/types/store.types';
 import Line from '@/shared/ui/Line';
@@ -35,6 +38,7 @@ export const MobilePanel: FC<IProps> = ({
 	const router = useRouter();
 	const searchParams = useSearchParams();
 	const isViewList = useViewListsStore(store => store.isView);
+	const openView = useViewBlocksStore(store => store.openView);
 
 	const queryString = getQueryStringForMobilePanel(searchParams, map);
 
@@ -76,6 +80,8 @@ export const MobilePanel: FC<IProps> = ({
 			} else {
 				router.push(`${url}`);
 			}
+		} else if (id === 4) {
+			openView('create-place');
 		} else if (id === 5) {
 			router.push(`/settings-database/?${queryString}`);
 		}
