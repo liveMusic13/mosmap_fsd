@@ -23,7 +23,8 @@ export function withUrlRedirect(middleware: NextMiddleware): NextMiddleware {
 			pathname.startsWith('/auth') ||
 			pathname.startsWith('/confirm') ||
 			pathname.startsWith('/settings-database') ||
-			pathname.startsWith('/settings-map')
+			pathname.startsWith('/settings-map') ||
+			pathname.startsWith('/mobile-painting-of-area')
 		) {
 			// Если мы уже на SEO URL, не нужно пытаться делать редирект на основе куки!
 			// Иначе кука со старым ID будет всегда откатывать нас назад.

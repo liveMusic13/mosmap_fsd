@@ -1,8 +1,8 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import { FC, useEffect, useMemo } from 'react';
-import { useForm } from 'react-hook-form';
+import { Dispatch, FC, SetStateAction, useEffect, useMemo } from 'react';
+import { useForm, useWatch } from 'react-hook-form';
 
 import { colorIntervalSearchParams } from '../constants';
 import { useGetColorInterval } from '../hooks/useGetColorInterval';
@@ -20,9 +20,13 @@ const DynamicLoaderPortal = dynamic(
 	{ ssr: false },
 );
 
-export const BuildPaintingOfAreas: FC = () => {
+interface IProps {
+	setIsViewRangeSlider: Dispatch<SetStateAction<boolean>>;
+}
+
+export const BuildPaintingOfAreas: FC<IProps> = ({ setIsViewRangeSlider }) => {
 	const mapOrSeoUrl = useGetSeoOrQueryParam();
-	const { data, isLoading, isSuccess, isError } = useGetColorInterval(
+	const { data, isLoading, isSuccess } = useGetColorInterval(
 		mapOrSeoUrl.result,
 	);
 
@@ -51,6 +55,20 @@ export const BuildPaintingOfAreas: FC = () => {
 				defaultValueSelect[colorIntervalSearchParams.numberField],
 		},
 	});
+	const coloringMethod = useWatch({
+		control,
+		name: colorIntervalSearchParams.coloringMethod,
+	});
+
+	useEffect(() => {
+		if (coloringMethod) {
+			//TODO:Разобраться с условием когда должны быть видны инпуты и рэнж а когда все просто рэнж
+			// const isViewRangeSlider =
+			// 	Number(coloringMethod) === 1 || Number(coloringMethod) === 3;
+			const isViewRangeSlider = Number(coloringMethod) !== 0;
+			setIsViewRangeSlider(isViewRangeSlider);
+		}
+	}, [coloringMethod]);
 
 	//HELP: Обновляем дефолтные значения формы когда приходят данные
 	useEffect(() => {

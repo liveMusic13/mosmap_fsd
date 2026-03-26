@@ -1,11 +1,18 @@
 import { colorIntervalSearchParams } from './constants';
 
+export interface IValueIntervalRange {
+	min: number;
+	max: number;
+	color: string;
+}
+
 export interface IIntervalRange {
 	field_id: number;
 	max_value: number;
 	min_value: number;
 	sloi: number;
 	type: number;
+	values?: IValueIntervalRange[];
 }
 
 export interface IModeList {
@@ -44,12 +51,14 @@ export interface IFormColorInterval {
 	[colorIntervalSearchParams.numberField]: string;
 }
 
-export type RangeItem = {
-	min: number;
-	max: number;
-	color: string;
+export type TRangeFormValues = {
+	// ranges: RangeItem[];
+	ranges: IValueIntervalRange[];
 };
 
-export type RangeFormValues = {
-	ranges: RangeItem[];
-};
+export interface IColorMap {
+	color: string;
+	id: number;
+	name: string;
+	polygon: number[][];
+}

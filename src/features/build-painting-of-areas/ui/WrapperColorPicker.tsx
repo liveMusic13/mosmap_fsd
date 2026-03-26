@@ -1,14 +1,15 @@
 import { FC, useState } from 'react';
 import type { UseFormSetValue } from 'react-hook-form';
 
-import type { RangeFormValues, RangeItem } from '../types';
+import type { IValueIntervalRange, TRangeFormValues } from '../types';
 
+import { keepOnlyFirstHash } from '@/shared/lib/colors';
 import ColorPicker from '@/shared/ui/ColorPicker';
 
 interface IProps {
-	r: RangeItem;
+	r: IValueIntervalRange;
 	index: number;
-	setValue: UseFormSetValue<RangeFormValues>;
+	setValue: UseFormSetValue<TRangeFormValues>;
 }
 
 export const WrapperColorPicker: FC<IProps> = ({ r, index, setValue }) => {
@@ -26,8 +27,8 @@ export const WrapperColorPicker: FC<IProps> = ({ r, index, setValue }) => {
 
 	return (
 		<div
-			className={`w-6 h-6 rounded-md cursor-pointer relative`}
-			style={{ backgroundColor: r.color }}
+			className={`w-15 h-7 sm:w-6 sm:h-6 rounded-md cursor-pointer relative`}
+			style={{ backgroundColor: keepOnlyFirstHash(r.color) }}
 			onClick={toggleView}
 		>
 			<ColorPicker

@@ -31,4 +31,5 @@ export interface IViewListsStore {
 export interface IViewPaintingOfAreaStore {
 	isView: boolean;
 	toggleView: () => void;
+	setIsView: (bol: boolean) => void;
 }

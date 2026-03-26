@@ -60,5 +60,6 @@ export const useViewPaintingOfAreaStore = create<IViewPaintingOfAreaStore>(
 	set => ({
 		isView: false,
 		toggleView: () => set(state => ({ ...state, isView: !state.isView })),
+		setIsView: bol => set({ isView: bol }),
 	}),
 );

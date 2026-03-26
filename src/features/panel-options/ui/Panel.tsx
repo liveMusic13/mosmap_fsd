@@ -113,7 +113,7 @@ export const Panel: FC<IProps> = ({
 							key={but.id}
 							isRed={isRed}
 							hover_text={but.hover_text}
-							src={toggleActiveIcon(but, view)}
+							src={toggleActiveIcon(but, view, isView)}
 							position='left'
 							isDisabled={isDisabled(but.id)}
 							onClick={() => handleStandard(but.id)}

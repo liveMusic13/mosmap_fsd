@@ -8,6 +8,7 @@ import { FC, useMemo } from 'react';
 import { MapContainer, TileLayer } from 'react-leaflet';
 import MarkerClusterGroup from 'react-leaflet-cluster';
 
+import ColorMapPolygons from './ColorMapPolygons';
 import { MapClickHandler } from './MapClickHandler';
 import RenderMarkers from './RenderMarkers';
 import {
@@ -58,7 +59,7 @@ const MapWithPlaces: FC = () => {
 	const zoomLevel = useZoomLevelStore(store => store.zoomLevel);
 	const crdArea = useCrdAreaStore(store => store.crd);
 
-	console.log('map-data', data);
+	// console.log('map-data', data);
 
 	if (isLoading) return <Loader />;
 
@@ -88,6 +89,7 @@ const MapWithPlaces: FC = () => {
 						coords={[crdArea.lat, crdArea.lng]}
 					/>
 				)}
+				<ColorMapPolygons />
 				{data?.clastering == '2' ? (
 					<MarkerClusterGroup chunkedLoading={true}>
 						<RenderMarkers

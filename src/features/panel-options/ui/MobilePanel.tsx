@@ -14,6 +14,7 @@ import { getQueryStringForMobilePanel } from '@/shared/lib/url';
 import {
 	useViewBlocksStore,
 	useViewListsStore,
+	useViewPaintingOfAreaStore,
 } from '@/shared/store/panelOptions.store';
 import { ILinkButtonInMapPageData } from '@/shared/types/api.types';
 import { TViewBlocks } from '@/shared/types/store.types';
@@ -39,6 +40,9 @@ export const MobilePanel: FC<IProps> = ({
 	const searchParams = useSearchParams();
 	const isViewList = useViewListsStore(store => store.isView);
 	const openView = useViewBlocksStore(store => store.openView);
+	const setIsViewPaintingOfArea = useViewPaintingOfAreaStore(
+		store => store.setIsView,
+	);
 
 	const queryString = getQueryStringForMobilePanel(searchParams, map);
 
@@ -84,6 +88,19 @@ export const MobilePanel: FC<IProps> = ({
 			openView('create-place');
 		} else if (id === 5) {
 			router.push(`/settings-database/?${queryString}`);
+		} else if (id === 7) {
+			const url = queryString
+				? `/mobile-painting-of-area/?${queryString}`
+				: `/mobile-painting-of-area/`;
+			if (pathname.startsWith('/mobile-painting-of-area')) {
+				router.push(`/${queryString}`);
+			} else {
+				if (isViewPaintingOfArea) {
+					setIsViewPaintingOfArea(false);
+				} else {
+					router.push(`${url}`);
+				}
+			}
 		}
 	};
 

@@ -57,6 +57,11 @@ const WrapperAllMapContent: FC<IProps> = ({ places, isClearMap }) => {
 					<PaintingOfAreas />
 				</div>
 			)}
+			{/* {isViewPaintingOfArea && (
+				<div className='absolute -z-50 opacity-0 sm:block'>
+					<PaintingOfAreas />
+				</div>
+			)} */}
 			<div className='flex flex-1 min-h-1/2 min-w-0'>
 				<WrapperMapDynamic />
 			</div>
