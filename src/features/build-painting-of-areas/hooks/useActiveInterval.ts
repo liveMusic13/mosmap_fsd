@@ -12,6 +12,16 @@ export const useActiveInterval = (
 
 	return useMemo(() => {
 		if (!intervals?.length) return undefined;
+		// console.log(
+		// 	'intervals',
+		// 	intervals,
+		// 	intervals.find(
+		// 		interval =>
+		// 			interval.sloi === sloi &&
+		// 			interval.type === type &&
+		// 			interval.field_id === fieldId,
+		// 	),
+		// );
 
 		// const sloi = Number(searchParams.get(colorIntervalSearchParams.layerMap));
 		// const type = Number(

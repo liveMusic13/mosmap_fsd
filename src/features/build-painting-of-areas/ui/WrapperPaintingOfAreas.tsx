@@ -53,6 +53,7 @@ export const WrapperPaintingOfAreas: FC = () => {
 		type,
 		fieldId,
 	);
+
 	const activeInterval = useActiveInterval(data?.intervals);
 
 	// Когда activeInterval меняется — сбрасываем форму ranges
