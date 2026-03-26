@@ -133,6 +133,7 @@ import { FC, useEffect, useMemo, useRef } from 'react';
 import { CircleMarker, Polygon, Popup } from 'react-leaflet';
 import { useShallow } from 'zustand/shallow';
 
+import { useTargetPlaceIdStore } from '@/entities/place';
 import { useAvailabilityZoneStore } from '@/entities/place/store/availabilityZone';
 import { IAvailabilityZone } from '@/widgets/availability-zone/types';
 
@@ -143,6 +144,7 @@ interface IProps {
 const RenderAvailabilityZoneAndMarkers: FC<IProps> = ({ data }) => {
 	const markersRef = useRef<Map<string, LeafletCircleMarker>>(new Map());
 	const prevActiveId = useRef<string | null>(null);
+	const targetId = useTargetPlaceIdStore(store => store.id);
 
 	const idAvailabilityZone = useAvailabilityZoneStore(
 		useShallow(store => store.idAvailabilityZone),
@@ -168,7 +170,7 @@ const RenderAvailabilityZoneAndMarkers: FC<IProps> = ({ data }) => {
 			}
 		});
 		return newMarkers;
-	}, [data, idAvailabilityZone]);
+	}, [data, idAvailabilityZone, targetId]);
 
 	useEffect(() => {
 		if (prevActiveId.current) {

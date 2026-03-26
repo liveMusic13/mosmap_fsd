@@ -1,8 +1,9 @@
 import Image from 'next/image';
-import { ChangeEvent, FC, Fragment, useState } from 'react';
+import { ChangeEvent, FC, Fragment, useEffect, useState } from 'react';
 
 import { IGroupOrganization } from '../types';
 
+import { useTargetPlaceIdStore } from '@/entities/place';
 import { useAvailabilityZoneStore } from '@/entities/place/store/availabilityZone';
 import { Checkbox } from '@/shared/ui/checkbox';
 
@@ -14,12 +15,19 @@ const titleTable = ['Название', 'Расстояние (м)'];
 
 const GroupOrganization: FC<IProps> = ({ orgGroup }) => {
 	const [isOpen, setIsOpen] = useState(false);
+	const targetId = useTargetPlaceIdStore(store => store.id);
+
 	const {
 		idAvailabilityZone,
 		setAllIdAvailabilityZone,
 		setIdAvailabilityZone,
 		setIdAvailabilityZoneNoToggle,
 	} = useAvailabilityZoneStore();
+
+	useEffect(() => {
+		setAllIdAvailabilityZone([]);
+		setIsOpen(false);
+	}, [targetId]);
 
 	// useEffect(
 	// 	() => console.log('idAvailabilityZone', idAvailabilityZone),

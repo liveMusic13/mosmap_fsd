@@ -27,6 +27,7 @@ const RenderMarkers: FC<IProp> = ({ markers, isAllIcons }) => {
 	const isViewAvailabilityZone = useViewAvailabilityZoneStore(
 		store => store.isView,
 	);
+
 	// const idTargetPlace = useTargetPlaceIdStore(store => store.id);
 	const crdArea = useCrdAreaStore(store => store.crd);
 	const { data, isSuccess, isLoading } = useGetAvailabilityZone({
