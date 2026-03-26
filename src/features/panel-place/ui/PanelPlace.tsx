@@ -75,14 +75,19 @@ export const PanelPlace: FC<IProps> = ({ toggleAvailabilityZone }) => {
 	const setCenterMap = useCenterMapStore(store => store.setCenterMap);
 	const clearCrdAreaMarker = useCrdAreaStore(store => store.clearCrd);
 
-	const { mutate, isSuccess, data: data_delete_crd } = useSavePlaceInfo();
+	const {
+		mutate,
+		isSuccess,
+		isPending,
+		data: data_delete_crd,
+	} = useSavePlaceInfo();
 
 	const queryString = buildQueryParams(
 		mapOrSeoUrl.type,
 		searchParams,
 		mapOrSeoUrl.result,
 	);
-	const { refetch, isLoading } = useGetMapPageData(queryString);
+	const { refetch, isFetching } = useGetMapPageData(queryString);
 
 	useEffect(() => {
 		if (isSuccess) {
@@ -225,7 +230,10 @@ export const PanelPlace: FC<IProps> = ({ toggleAvailabilityZone }) => {
 					</div>
 				</div>
 			</Popup>
-			<LoaderPortal isLoading={isLoading} message='Обновляем данные...' />
+			<LoaderPortal
+				isLoading={isFetching || isPending}
+				message='Обновляем данные...'
+			/>
 		</>
 	);
 };

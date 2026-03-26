@@ -144,6 +144,7 @@ export const WrapperPaintingOfAreas: FC = () => {
 				<Button
 					type='submit'
 					className='min-h-12 text-sm! sm:text-xs! sm:min-h-8'
+					style={{ touchAction: 'manipulation' }}
 					disabled={isLoading || isPending_saveInterval || isFetching_colorMap}
 				>
 					Применить
