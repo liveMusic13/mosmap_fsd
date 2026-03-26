@@ -77,8 +77,12 @@ const WrapperFilters: FC = () => {
 
 		// ШАГ 3: Чистим URL физически
 		const newUrl = window.location.pathname;
-		window.history.pushState({}, '', newUrl);
-
+		const baseQuery =
+			mapOrSeoUrl.type === 'query'
+				? `map=${mapOrSeoUrl.result}`
+				: `url=${mapOrSeoUrl.result}`;
+		window.history.pushState({}, '', `${newUrl}?${baseQuery}`);
+		console.log('queryString', queryString);
 		// ШАГ 4: Даем React "продышаться" и включаем готовность обратно.
 		// Теперь useFilterInitFromUrl увидит пустой URL и не будет восстанавливать старье.
 		setTimeout(() => {

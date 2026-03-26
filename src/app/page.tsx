@@ -50,7 +50,7 @@ export default async function Home({
 
 	return (
 		<div className='flex flex-col gap-3.5 min-h-0 min-w-0 flex-1 px-2.5 sm:px-4 xl:px-15 py-2.5 xl:py-10'>
-			<h1 className='uppercase text-xl sm:text-4xl font-intro'>
+			<h1 className='uppercase text-xl sm:text-4xl font-intro line-clamp-2 sm:truncate'>
 				{response.title}
 			</h1>
 			<WrapperPanel buttons={response.buttons ?? []} />

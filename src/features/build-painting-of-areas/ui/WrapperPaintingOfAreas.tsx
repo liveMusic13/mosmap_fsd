@@ -143,7 +143,7 @@ export const WrapperPaintingOfAreas: FC = () => {
 				{(isPending_saveInterval || isFetching_colorMap) && <Loader />}
 				<Button
 					type='submit'
-					className='min-h-8'
+					className='min-h-12 text-sm! sm:text-xs! sm:min-h-8'
 					disabled={isLoading || isPending_saveInterval || isFetching_colorMap}
 				>
 					Применить

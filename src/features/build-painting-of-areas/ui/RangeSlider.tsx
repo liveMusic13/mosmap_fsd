@@ -310,7 +310,7 @@ export const RangeSlider: FC<Props> = ({
 				variant='transparent'
 				type='button'
 				onClick={addRange}
-				className='mt-4'
+				className='mt-4 min-h-12 text-sm! sm:text-xs! sm:min-h-8'
 			>
 				Добавить
 			</Button>
