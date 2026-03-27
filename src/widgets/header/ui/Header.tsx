@@ -2,21 +2,39 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { FC, useState } from 'react';
 
 import Burger from './Burger';
 import Menu from './Menu';
+import { useCheckToken } from '@/app/providers/TokenProvider';
+import { useLogout } from '@/features/auth';
+import { useMounted } from '@/shared/hooks/useMounted';
+import Button from '@/shared/ui/Button';
 import Line from '@/shared/ui/Line';
 
 const Header: FC = () => {
+	const isMounted = useMounted();
+	const router = useRouter();
 	const [isOpen, setIsOpen] = useState(false);
 	const searchParams = useSearchParams();
 	const params = Object.fromEntries(searchParams.entries());
 	const paramsToString = new URLSearchParams(params).toString();
 
+	const { token } = useCheckToken();
+	const { mutate } = useLogout();
+
 	const handleOpenMenu = () => setIsOpen(true);
 	const handleCloseMenu = () => setIsOpen(false);
+
+	const handleAuth = () => {
+		if (!!token) {
+			mutate();
+		} else {
+			router.push('/auth');
+		}
+		handleCloseMenu();
+	};
 
 	return (
 		<header
@@ -40,6 +58,17 @@ const Header: FC = () => {
 			</div>
 			<div className='hidden sm:block'>
 				<Menu position='horizontal' />
+			</div>
+			<div className='block sm:hidden'>
+				<Button
+					variant='transparent'
+					className='text-lg! sm:text-sm!'
+					onClick={handleAuth}
+				>
+					{/*HELP: Если компонент ещё не смонтирован, рендерим одно и то же значение,
+                    чтобы избежать рассогласования(ошибка гидратации). После монтирования покажется нужное */}
+					{isMounted ? (!!token ? 'Выход' : 'Вход') : 'Загрузка...'}
+				</Button>
 			</div>
 			<div
 				className={`

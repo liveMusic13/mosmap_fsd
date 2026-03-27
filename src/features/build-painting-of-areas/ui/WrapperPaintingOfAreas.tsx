@@ -114,7 +114,7 @@ export const WrapperPaintingOfAreas: FC = () => {
 
 	const onSubmit = (data: TRangeFormValues) => {
 		console.log(data, activeInterval);
-		if (activeInterval)
+		if (activeInterval) {
 			mutate({
 				mapParam: mapOrSeoUrl.result,
 				body: {
@@ -125,6 +125,16 @@ export const WrapperPaintingOfAreas: FC = () => {
 					})),
 				},
 			});
+		} else {
+			mutate({
+				mapParam: mapOrSeoUrl.result,
+				body: {
+					max_value: 0,
+					min_value: 0,
+					values: [],
+				} as any,
+			});
+		}
 	};
 
 	return (
