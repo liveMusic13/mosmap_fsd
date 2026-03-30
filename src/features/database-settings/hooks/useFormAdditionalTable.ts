@@ -33,19 +33,20 @@ export const useFormAdditionalTable = (initialData: IRowAdditional[]) => {
 
 	const addRow = (idAndCol: { id: number | null; col: string | null }) => {
 		const defaultRow: IRowAdditional = {
-			id: Math.random(),
+			// id: Math.random(),
+			id: 0,
 			name: '',
 		};
 
 		if (idAndCol.col === 'all') {
-			defaultRow.icon_name = formRows[0].icon_name ?? '';
-			defaultRow.color = formRows[0].color ?? '#000';
+			defaultRow.icon_name = formRows[0]?.icon_name ?? '';
+			defaultRow.color = formRows[0]?.color ?? '#000';
 		}
 		if (idAndCol.col === 'Цвет') {
-			defaultRow.color = formRows[0].color ?? '#000';
+			defaultRow.color = formRows[0]?.color ?? '#000';
 		}
 		if (idAndCol.col === 'Иконка') {
-			defaultRow.icon_name = formRows[0].icon_name ?? '';
+			defaultRow.icon_name = formRows[0]?.icon_name ?? '';
 		}
 
 		setFormRows(p => [...p, defaultRow]);

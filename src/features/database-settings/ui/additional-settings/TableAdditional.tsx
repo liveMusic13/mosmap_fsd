@@ -44,10 +44,12 @@ const TableAdditional: FC<IProps> = ({
 				? '0.5fr 2.5fr 1fr 1fr'
 				: '0.5fr 2.5fr 1fr 1fr 1fr';
 
+	const minHClass = formRows.length < 4 ? ' sm:min-h-40' : ' min-h-0';
+
 	return (
 		<div className='flex flex-col w-fit my-2 text-text-table min-h-0 flex-1 max-h-full'>
 			<div
-				className='grid gap-px items-center overflow-x-hidden overflow-y-auto scrollbar-custom'
+				className={`grid gap-px items-center overflow-x-hidden ${minHClass} overflow-y-auto scrollbar-custom`}
 				style={{
 					gridTemplateColumns,
 				}}

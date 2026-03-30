@@ -8,7 +8,10 @@ import { useCenterMapStore } from '@/entities/map';
 import { PlaceListItem } from '@/entities/place';
 import { useTargetPlaceIdStore } from '@/entities/place/store/targetPlace.store';
 import { IPlace } from '@/entities/place/types';
-import { useSelectAreaLayersStore } from '@/features/select-area';
+import {
+	useSelectAreaLayersStore,
+	useSelectAreaStore,
+} from '@/features/select-area';
 import { isMarkerInsideSelectArea } from '@/features/select-area/lib/helpers';
 import { useGetMapPageData } from '@/shared/hooks/api-hooks/useGetMapPageData';
 import { useGetSeoOrQueryParam } from '@/shared/hooks/useGetSeoOrQueryParam';
@@ -25,6 +28,7 @@ const ListPlaces: FC = () => {
 	const targetPlaceId = useTargetPlaceIdStore(store => store.id);
 	const setCenterMap = useCenterMapStore(store => store.setCenterMap);
 	const setTargetId = useTargetPlaceIdStore(store => store.setTargetId);
+	const isSelectArea = useSelectAreaStore(store => store.isSelectArea);
 	const searchParams = useSearchParams();
 	const mapOrSeoUrl = useGetSeoOrQueryParam();
 	const openView = useViewBlocksStore(store => store.openView);
@@ -45,10 +49,12 @@ const ListPlaces: FC = () => {
 	const objectsInSelectArea = useMemo(() => {
 		if (!data?.points) return [];
 		if (arrayPolygons.length === 0) return data?.points;
+		if (!isSelectArea) return data?.points;
+
 		return data?.points.filter(marker =>
 			isMarkerInsideSelectArea(marker, arrayPolygons[indexTargetPolygon || 0]),
 		);
-	}, [data?.points, arrayPolygons, indexTargetPolygon]);
+	}, [data?.points, arrayPolygons, indexTargetPolygon, isSelectArea]);
 
 	const filteredData = useMemo(() => {
 		const query = search.toLowerCase();

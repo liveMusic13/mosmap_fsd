@@ -90,7 +90,7 @@ const MapWithPlaces: FC = () => {
 					/>
 				)}
 				<ColorMapPolygons />
-				{data?.clastering == '2' ? (
+				{data?.clastering == '1' ? (
 					<MarkerClusterGroup chunkedLoading={true}>
 						<RenderMarkers
 							markers={markers}
