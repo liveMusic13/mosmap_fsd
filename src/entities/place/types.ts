@@ -63,4 +63,6 @@ export interface IAvailabilityZoneStore {
 	setAllIdAvailabilityZone: (id: number[]) => void;
 	setIdAvailabilityZoneNoToggle: (id: number) => void;
 	setOrganizationIdAvailabilityZone: (id: string) => void;
+	addIdAvailabilityZone: (id: number) => void;
+	removeIdAvailabilityZone: (id: number) => void;
 }

@@ -157,6 +157,16 @@ const RenderAvailabilityZoneAndMarkers: FC<IProps> = ({ data }) => {
 		store => store.setOrganizationIdAvailabilityZone,
 	);
 
+	useEffect(
+		() =>
+			console.log(
+				'in render zone',
+				idAvailabilityZone,
+				organizationIdAvailabilityZone,
+			),
+		[organizationIdAvailabilityZone, idAvailabilityZone],
+	);
+
 	const markers = useMemo(() => {
 		if (!data || idAvailabilityZone.length === 0 || !data.orgs) return [];
 

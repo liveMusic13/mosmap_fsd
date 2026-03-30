@@ -20,6 +20,14 @@ export const useAvailabilityZoneStore = create<IAvailabilityZoneStore>(set => ({
 				? state.idAvailabilityZone.filter(existingId => existingId !== id)
 				: [...state.idAvailabilityZone, id],
 		})),
+	addIdAvailabilityZone: id =>
+		set(state => ({ idAvailabilityZone: [...state.idAvailabilityZone, id] })),
+	removeIdAvailabilityZone: id =>
+		set(state => ({
+			idAvailabilityZone: state.idAvailabilityZone.filter(
+				zoneId => zoneId !== id,
+			),
+		})),
 	setIdAvailabilityZoneNoToggle: id =>
 		set(state => ({
 			idAvailabilityZone: state.idAvailabilityZone.includes(id)

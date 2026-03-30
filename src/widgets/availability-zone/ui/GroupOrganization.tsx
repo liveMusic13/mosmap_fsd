@@ -22,6 +22,8 @@ const GroupOrganization: FC<IProps> = ({ orgGroup }) => {
 		setAllIdAvailabilityZone,
 		setIdAvailabilityZone,
 		setIdAvailabilityZoneNoToggle,
+		addIdAvailabilityZone,
+		removeIdAvailabilityZone,
 	} = useAvailabilityZoneStore();
 
 	useEffect(() => {
@@ -34,11 +36,22 @@ const GroupOrganization: FC<IProps> = ({ orgGroup }) => {
 	// 	[idAvailabilityZone],
 	// );
 
+	useEffect(() => {
+		if (isOpen) {
+			addIdAvailabilityZone(Number(orgGroup.group_id));
+		} else {
+			removeIdAvailabilityZone(Number(orgGroup.group_id));
+		}
+	}, [isOpen]);
+
 	const onChange = (e: ChangeEvent<HTMLInputElement>) => {
 		setIsOpen(e.target.checked);
-		setIdAvailabilityZone(Number(orgGroup.group_id));
+		// setIdAvailabilityZone(Number(orgGroup.group_id));
 	};
-	const handleOpen = () => setIsOpen(p => !p);
+	const handleOpen = () =>
+		setIsOpen(p => {
+			return !p;
+		});
 
 	return (
 		<div>
