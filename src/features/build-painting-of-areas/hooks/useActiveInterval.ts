@@ -35,7 +35,8 @@ export const useActiveInterval = (
 			interval =>
 				interval.sloi === sloi &&
 				interval.type === type &&
-				interval.field_id === fieldId,
+				(interval.field_id === fieldId ||
+					(interval.field_id === 0 && fieldId == -99)),
 		);
 	}, [intervals, searchParams]);
 };

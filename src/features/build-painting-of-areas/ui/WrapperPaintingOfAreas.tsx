@@ -119,6 +119,8 @@ export const WrapperPaintingOfAreas: FC = () => {
 				mapParam: mapOrSeoUrl.result,
 				body: {
 					...activeInterval,
+					field_id:
+						activeInterval.field_id == -99 ? 0 : activeInterval.field_id,
 					values: data.ranges.map(el => ({
 						...el,
 						color: keepOnlyFirstHash(el.color),

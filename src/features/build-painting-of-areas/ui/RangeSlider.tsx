@@ -210,11 +210,15 @@ export const RangeSlider: FC<Props> = ({
 
 	const ranges = useWatch({ control, name: 'ranges' }) ?? [];
 
+	// Деструктурируем новые значения из хука
 	const {
 		sliderRef,
 		dragging,
 		setDragging,
+		pendingValues, // + новое
 		changeMax,
+		handleMaxInputChange, // + новое
+		handleMaxInputBlur, // + новое
 		handleMouseMove,
 		handleMouseUp,
 		handleTouchMove,
@@ -222,6 +226,19 @@ export const RangeSlider: FC<Props> = ({
 		addRange,
 		deleteRange,
 	} = useRangeSlider({ ranges, maxValue, setValue, append, remove });
+
+	// const {
+	// 	sliderRef,
+	// 	dragging,
+	// 	setDragging,
+	// 	changeMax,
+	// 	handleMouseMove,
+	// 	handleMouseUp,
+	// 	handleTouchMove,
+	// 	handleTouchEnd,
+	// 	addRange,
+	// 	deleteRange,
+	// } = useRangeSlider({ ranges, maxValue, setValue, append, remove });
 
 	/* ----------------------------- RENDER ----------------------------- */
 
@@ -286,8 +303,13 @@ export const RangeSlider: FC<Props> = ({
 							<span className='text-xs'>до</span>
 							<input
 								type='number'
-								value={r.max}
-								onChange={e => changeMax(i, Number(e.target.value))}
+								value={
+									pendingValues[i] !== undefined ? pendingValues[i] : r.max
+								}
+								onChange={e => handleMaxInputChange(i, e.target.value)}
+								onBlur={() => handleMaxInputBlur(i)}
+								// value={r.max}
+								// onChange={e => changeMax(i, Number(e.target.value))}
 								className='w-27 sm:w-18 border border-border-gray rounded pl-2'
 							/>
 							<span className='text-xs'>-</span>
