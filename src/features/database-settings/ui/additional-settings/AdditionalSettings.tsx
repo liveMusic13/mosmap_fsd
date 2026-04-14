@@ -1,7 +1,11 @@
 import { FC, useLayoutEffect } from 'react';
 
-import { useFormAdditionalTable } from '../../hooks/useFormAdditionalTable';
+import {
+	IRowWithNewFlag,
+	useFormAdditionalTable,
+} from '../../hooks/useFormAdditionalTable';
 import { useGetListItems } from '../../hooks/useGetListItems';
+import { IRowAdditional } from '../../types';
 
 import TableAdditional from './TableAdditional';
 import Button from '@/shared/ui/Button';
@@ -33,10 +37,22 @@ const AdditionalSettings: FC<IProps> = ({ handleBack, map, idAndCol }) => {
 
 	const onSubmit = async () => {
 		if (idAndCol.id) {
+			const clearRows = (formRows as IRowWithNewFlag[]).map(row => {
+				let resultRow: IRowAdditional = {
+					id: row?.isNew ? 0 : row.id,
+					name: row.name,
+				};
+
+				if (row.color) resultRow.color = row.color;
+				if (row.icon_name) resultRow.icon_name = row.icon_name;
+
+				return resultRow;
+			});
+
 			await mutateAsync({
 				map,
 				idObject: idAndCol.id,
-				items: formRows,
+				items: clearRows,
 			});
 			handleBack();
 		}

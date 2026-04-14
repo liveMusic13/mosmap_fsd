@@ -97,6 +97,8 @@ const RowAdditional: FC<IProps> = ({
 							map={map}
 							handleCloseIcons={handleCloseIcons}
 							handleIcon={handleIcon}
+							handleChangeForm={handleChangeForm}
+							id={data.id}
 						/>
 					)}
 				</div>
@@ -116,7 +118,7 @@ const RowAdditional: FC<IProps> = ({
 			);
 	}
 
-	return <div>RowAdditional</div>;
+	// return <div>RowAdditional</div>;
 };
 
 export default RowAdditional;

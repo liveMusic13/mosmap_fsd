@@ -1,6 +1,7 @@
 import { FC } from 'react';
 
 import { useGetIcons } from '../../hooks/useGetIcons';
+import { IRowAdditional } from '../../types';
 
 import Button from '@/shared/ui/Button';
 import { Loader } from '@/shared/ui/loader';
@@ -9,9 +10,21 @@ interface IProps {
 	map: string;
 	handleCloseIcons: () => void;
 	handleIcon: (name: string) => void;
+	handleChangeForm: (
+		id: number,
+		field: keyof IRowAdditional,
+		value: string | number,
+	) => void;
+	id: number;
 }
 
-const ChoiceIcon: FC<IProps> = ({ map, handleCloseIcons, handleIcon }) => {
+const ChoiceIcon: FC<IProps> = ({
+	map,
+	handleCloseIcons,
+	handleIcon,
+	handleChangeForm,
+	id,
+}) => {
 	const { data, isLoading } = useGetIcons(map);
 
 	return (
@@ -22,7 +35,10 @@ const ChoiceIcon: FC<IProps> = ({ map, handleCloseIcons, handleIcon }) => {
 					<svg
 						key={ind}
 						className=' text-gray-400 w-7 h-7 cursor-pointer'
-						onClick={() => handleIcon(icon)}
+						onClick={() => {
+							handleIcon(icon);
+							handleChangeForm(id, 'icon_name', icon);
+						}}
 					>
 						<use xlinkHref={`/images/icons/sprite.svg#${icon}`}></use>
 					</svg>

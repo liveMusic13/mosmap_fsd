@@ -46,6 +46,8 @@ const TableAdditional: FC<IProps> = ({
 
 	const minHClass = formRows.length < 4 ? ' sm:min-h-40' : ' min-h-0';
 
+	console.log('formRows', formRows);
+
 	return (
 		<div className='flex flex-col w-fit my-2 text-text-table min-h-0 flex-1 max-h-full'>
 			<div

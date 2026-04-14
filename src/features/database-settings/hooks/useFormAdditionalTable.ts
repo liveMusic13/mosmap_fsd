@@ -2,8 +2,10 @@ import { useEffect, useState } from 'react';
 
 import { IRowAdditional } from '../types';
 
+export type IRowWithNewFlag = IRowAdditional & { isNew: boolean };
+
 export const useFormAdditionalTable = (initialData: IRowAdditional[]) => {
-	const [formRows, setFormRows] = useState(() => initialData);
+	const [formRows, setFormRows] = useState<IRowAdditional[]>(() => initialData);
 	useEffect(() => {
 		if (initialData.length > 0) {
 			setFormRows(initialData);
@@ -32,21 +34,22 @@ export const useFormAdditionalTable = (initialData: IRowAdditional[]) => {
 	};
 
 	const addRow = (idAndCol: { id: number | null; col: string | null }) => {
-		const defaultRow: IRowAdditional = {
-			// id: Math.random(),
-			id: 0,
+		const defaultRow: IRowWithNewFlag = {
+			id: Math.random(),
+			// id: 0,
 			name: '',
+			isNew: true,
 		};
 
 		if (idAndCol.col === 'all') {
-			defaultRow.icon_name = formRows[0]?.icon_name ?? '';
+			defaultRow.icon_name = formRows[0]?.icon_name ?? 'shield';
 			defaultRow.color = formRows[0]?.color ?? '#000';
 		}
 		if (idAndCol.col === 'Цвет') {
 			defaultRow.color = formRows[0]?.color ?? '#000';
 		}
 		if (idAndCol.col === 'Иконка') {
-			defaultRow.icon_name = formRows[0]?.icon_name ?? '';
+			defaultRow.icon_name = formRows[0]?.icon_name ?? 'shield';
 		}
 
 		setFormRows(p => [...p, defaultRow]);
