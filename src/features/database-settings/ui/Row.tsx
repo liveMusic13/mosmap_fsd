@@ -265,15 +265,31 @@ const Row: FC<IProps> = ({
 		// Группируем логику чекбоксов
 		case 4:
 			return (
+				// <CellWrapper>
+				// 	{renderCheckbox('namefield', type === 6 || type === 7)}
+				// </CellWrapper>
 				<CellWrapper>
-					{renderCheckbox('namefield', type === 6 || type === 7)}
+					{renderExclusiveCheckbox(
+						'namefield',
+						// [0, 5, 1, 7].includes(type),
+						type === 6 || type === 7,
+						rowIndex,
+					)}
 				</CellWrapper>
 			);
 
 		case 5:
 			return (
+				// <CellWrapper>
+				// 	{renderCheckbox('nameonmap', type === 6 || type === 7)}
+				// </CellWrapper>
 				<CellWrapper>
-					{renderCheckbox('nameonmap', type === 6 || type === 7)}
+					{renderExclusiveCheckbox(
+						'nameonmap',
+						// [0, 5, 1, 7].includes(type),
+						type === 6 || type === 7,
+						rowIndex,
+					)}
 				</CellWrapper>
 			);
 
