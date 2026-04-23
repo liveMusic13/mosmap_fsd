@@ -243,6 +243,7 @@ const Row: FC<IProps> = ({
 												value={saveValue}
 												onChange={saveOnChange}
 												position='absolute'
+												positionOptions='top'
 											/>
 										);
 									}}

@@ -39,7 +39,7 @@ const Header: FC = () => {
 	return (
 		<header
 			style={{ backgroundImage: "url('/images/header_image.png')" }}
-			className='bg-cover bg-center bg-no-repeat w-full h-10 sm:h-16 lg:h-14 xl:h-20 flex items-center justify-between px-2.5 sm:px-4 xl:px-15'
+			className='bg-cover bg-center bg-no-repeat w-full h-10 sm:h-16 lg:h-14 2xl:h-20 flex items-center justify-between px-2.5 sm:px-4 2xl:px-15'
 		>
 			<div className='flex items-center lg:gap-4 xl:gap-6'>
 				<Burger isOpen={isOpen} handleClick={handleOpenMenu} />

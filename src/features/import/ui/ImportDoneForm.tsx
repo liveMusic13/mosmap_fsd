@@ -191,6 +191,7 @@ export const ImportDoneForm: FC = () => {
 							options={transformedOptions}
 							value={value as number | undefined}
 							onChange={onChange}
+							positionOptions='top'
 						/>
 					)}
 				/>

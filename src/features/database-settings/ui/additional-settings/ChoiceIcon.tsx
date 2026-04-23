@@ -45,6 +45,7 @@ const ChoiceIcon: FC<IProps> = ({
 						onClick={() => {
 							handleIcon(icon);
 							handleChangeForm(id, 'icon_name', icon);
+							handleCloseIcons();
 						}}
 					>
 						<use xlinkHref={`/images/icons/sprite.svg#${icon}`}></use>

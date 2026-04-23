@@ -2,7 +2,7 @@
 
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 
 import { useCheckToken } from '@/app/providers/TokenProvider';
 import { PlaceFormProvider } from '@/entities/place';
@@ -26,6 +26,7 @@ const DynamicLoaderPortal = dynamic(
 
 export const PlaceInfoWidget: FC = () => {
 	const view = useViewBlocksStore(store => store.view);
+	const fullCloseView = useViewBlocksStore(store => store.fullCloseView);
 	const closeView = useViewBlocksStore(store => store.closeView);
 	const targetPlaceId = useTargetPlaceIdStore(store => store.id);
 	const clearId = useTargetPlaceIdStore(store => store.clearId);
@@ -47,6 +48,12 @@ export const PlaceInfoWidget: FC = () => {
 		closeView();
 		clearId();
 	};
+
+	useEffect(() => {
+		if (!targetPlaceId && view === 'place-info') {
+			fullCloseView();
+		}
+	}, [view, targetPlaceId]);
 
 	//HELP: Для того чтобы если пользователь просматривал объект, а потом решил создать, после создания закрыл окошко и открылось окно информации о предыдущем объекте, не было пустое окно без информацию. Проблема в том что при создании объекта удаляется id объекта который просматривался и когда нажимаешь назад, то открывается предыдущее окно, но id объекта нету который до этого просматривал и получается пустой компонент. Чтобы он не показывался, просто не выводим его.
 	//TODO: подумать как "кэшировать" id объекта и чуть что потом убрать эту проверку и просто брать id из кэша. В качестве кэша можно использовать localStorage.
@@ -79,14 +86,24 @@ export const PlaceInfoWidget: FC = () => {
 					{view !== 'create-place' && (
 						<PanelPlace toggleAvailabilityZone={toggle} />
 					)}
-					{viewOrganizationInAvailabilityZone && (
+					<div className='min-h-0 overflow-y-auto scrollbar-custom '>
+						{viewOrganizationInAvailabilityZone && (
+							<OrganizationInAvailabilityZone closeInAvailabilityZone={close} />
+						)}
+						{view !== 'place-info' ? null : token ? (
+							<EditPlaceDetails />
+						) : (
+							<PlaceDetails />
+						)}
+					</div>
+					{/* {viewOrganizationInAvailabilityZone && (
 						<OrganizationInAvailabilityZone closeInAvailabilityZone={close} />
 					)}
 					{view !== 'place-info' ? null : token ? (
 						<EditPlaceDetails />
 					) : (
 						<PlaceDetails />
-					)}
+					)} */}
 					{view === 'area-info' && <AreaDetails />}
 					{view === 'create-place' && <NewPlaceDetails />}
 					{isLoading && <Loader />}

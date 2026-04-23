@@ -31,7 +31,7 @@ const OrganizationInAvailabilityZone: FC<IProps> = ({
 	const handleClose = () => closeInAvailabilityZone();
 
 	return (
-		<div className='max-h-1/3 min-h-0 flex flex-col gap-1 border border-dotted border-t-0 border-text-disabled'>
+		<div className='max-h-1/3 sm:max-h-full min-h-0 flex flex-col gap-1 border border-dotted border-t-0 border-text-disabled'>
 			<div className='flex gap-0.5 items-center justify-between'>
 				<h2 className='font-bold '>Организации рядом</h2>
 				<Button
