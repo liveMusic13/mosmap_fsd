@@ -67,6 +67,8 @@ const Table: FC<IProps> = ({ fields, moveRow, removeRow, update }) => {
 		setIsOpen(true);
 	};
 
+	// console.log('fields', fields);
+
 	return (
 		<>
 			<div className='flex flex-col w-full sm:w-fit my-2 text-text-table min-h-0 flex-1 max-h-full'>

@@ -37,6 +37,7 @@ export const WrapperPaintingOfAreas: FC = () => {
 	const setParams = useColorMapParamsStore(store => store.setParams);
 
 	const { fieldId, sloi, type } = useGetIntervalSearchParams();
+	const isViewRangeInputs = type != 3;
 	const mapOrSeoUrl = useGetSeoOrQueryParam();
 	const { data, isLoading, isSuccess } = useGetColorInterval(
 		mapOrSeoUrl.result,
@@ -151,6 +152,7 @@ export const WrapperPaintingOfAreas: FC = () => {
 						control={control}
 						setValue={setValue}
 						maxValue={activeInterval?.max_value ?? 1000}
+						isViewRangeInputs={isViewRangeInputs}
 					/>
 				)}
 				{(isPending_saveInterval || isFetching_colorMap) && <Loader />}

@@ -112,8 +112,8 @@ export const useFormTable = (
 				switch (type_name) {
 					case 'Строка': {
 						return {
-							// id: row.id_current,
-							id: 0,
+							id: row.isNew ? 0 : row.id_current,
+							// id: 0,
 							name: row.name,
 							priority: row.priority,
 							namefield: row.namefield ? 1 : 0,
@@ -125,8 +125,8 @@ export const useFormTable = (
 					}
 					case 'Число': {
 						return {
-							// id: row.id_current,
-							id: 0,
+							id: row.isNew ? 0 : row.id_current,
+							// id: 0,
 							name: row.name,
 							priority: row.priority,
 							namefield: row.namefield ? 1 : 0,
@@ -138,8 +138,8 @@ export const useFormTable = (
 					}
 					case 'Текст': {
 						return {
-							// id: row.id_current,
-							id: 0,
+							id: row.isNew ? 0 : row.id_current,
+							// id: 0,
 							name: row.name,
 							priority: row.priority,
 							namefield: row.namefield ? 1 : 0,
@@ -151,8 +151,8 @@ export const useFormTable = (
 					}
 					case 'Список': {
 						return {
-							// id: row.id_current,
-							id: 0,
+							id: row.isNew ? 0 : row.id_current,
+							// id: 0,
 							name: row.name,
 							priority: row.priority,
 							color: row.color ? 1 : 0,
@@ -163,8 +163,8 @@ export const useFormTable = (
 					}
 					default: {
 						return {
-							// id: row.id_current,
-							id: 0,
+							id: row.isNew ? 0 : row.id_current,
+							// id: 0,
 							name: row.name,
 							mode: row.mode ? 1 : 0,
 							priority: row.priority,

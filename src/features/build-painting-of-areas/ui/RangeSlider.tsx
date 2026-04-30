@@ -196,12 +196,14 @@ interface Props {
 	control: Control<TRangeFormValues>;
 	setValue: UseFormSetValue<TRangeFormValues>;
 	maxValue?: number;
+	isViewRangeInputs: boolean;
 }
 
 export const RangeSlider: FC<Props> = ({
 	control,
 	setValue,
 	maxValue = 1000,
+	isViewRangeInputs,
 }) => {
 	const { fields, append, remove } = useFieldArray({
 		control,
@@ -215,10 +217,13 @@ export const RangeSlider: FC<Props> = ({
 		sliderRef,
 		dragging,
 		setDragging,
-		pendingValues, // + новое
+		pendingValues,
 		changeMax,
-		handleMaxInputChange, // + новое
-		handleMaxInputBlur, // + новое
+		changeMin,
+		handleMaxInputChange,
+		handleMaxInputBlur,
+		handleMinInputChange,
+		handleMinInputBlur,
 		handleMouseMove,
 		handleMouseUp,
 		handleTouchMove,
@@ -226,12 +231,14 @@ export const RangeSlider: FC<Props> = ({
 		addRange,
 		deleteRange,
 	} = useRangeSlider({ ranges, maxValue, setValue, append, remove });
-
 	// const {
 	// 	sliderRef,
 	// 	dragging,
 	// 	setDragging,
+	// 	pendingValues, // + новое
 	// 	changeMax,
+	// 	handleMaxInputChange, // + новое
+	// 	handleMaxInputBlur, // + новое
 	// 	handleMouseMove,
 	// 	handleMouseUp,
 	// 	handleTouchMove,
@@ -283,59 +290,126 @@ export const RangeSlider: FC<Props> = ({
 			</div>
 
 			{/* INPUTS */}
-			<div className='space-y-2'>
-				{fields.map((field, i) => {
-					const r = ranges[i];
+			{isViewRangeInputs && (
+				<>
+					{/* <div className='space-y-2'>
+						{fields.map((field, i) => {
+							const r = ranges[i];
 
-					if (!r) return null;
+							if (!r) return null;
 
-					return (
-						<div
-							key={field.id}
-							className='flex items-center gap-1 text-lg sm:text-sm'
-						>
-							<span className='text-xs'>от</span>
-							<input
-								value={r.min}
-								readOnly
-								className='w-27 sm:w-18 border border-border-gray rounded pl-2 bg-gray-100'
-							/>
-							<span className='text-xs'>до</span>
-							<input
-								type='number'
-								value={
-									pendingValues[i] !== undefined ? pendingValues[i] : r.max
-								}
-								onChange={e => handleMaxInputChange(i, e.target.value)}
-								onBlur={() => handleMaxInputBlur(i)}
-								// value={r.max}
-								// onChange={e => changeMax(i, Number(e.target.value))}
-								className='w-27 sm:w-18 border border-border-gray rounded pl-2'
-							/>
-							<span className='text-xs'>-</span>
-							<WrapperColorPicker r={r} index={i} setValue={setValue} />
-							<span className='text-xs'>-</span>
+							return (
+								<div
+									key={field.id}
+									className='flex items-center gap-1 text-lg sm:text-sm'
+								>
+									<span className='text-xs'>от</span>
+									<input
+										value={r.min}
+										readOnly
+										className='w-27 sm:w-18 border border-border-gray rounded pl-2 bg-gray-100'
+									/>
+									<span className='text-xs'>до</span>
+									<input
+										type='number'
+										value={
+											pendingValues[i] !== undefined ? pendingValues[i] : r.max
+										}
+										onChange={e => handleMaxInputChange(i, e.target.value)}
+										onBlur={() => handleMaxInputBlur(i)}
+										// value={r.max}
+										// onChange={e => changeMax(i, Number(e.target.value))}
+										className='w-27 sm:w-18 border border-border-gray rounded pl-2'
+									/>
+									<span className='text-xs'>-</span>
+									<WrapperColorPicker r={r} index={i} setValue={setValue} />
+									<span className='text-xs'>-</span>
 
-							<button
-								type='button'
-								onClick={() => deleteRange(i)}
-								className='px-4 sm:px-2 py-1 rounded bg-text-red text-white text-lg sm:text-sm'
-							>
-								✕
-							</button>
-						</div>
-					);
-				})}
-			</div>
+									<button
+										type='button'
+										onClick={() => deleteRange(i)}
+										className='px-4 sm:px-2 py-1 rounded bg-text-red text-white text-lg sm:text-sm'
+									>
+										✕
+									</button>
+								</div>
+							);
+						})}
+					</div> */}
+					<div className='space-y-2'>
+						{fields.map((field, i) => {
+							const r = ranges[i];
 
-			<Button
-				variant='transparent'
-				type='button'
-				onClick={addRange}
-				className='mt-4 min-h-12 text-sm! sm:text-xs! sm:min-h-8'
-			>
-				Добавить
-			</Button>
+							if (!r) return null;
+
+							const isFirst = i === 0;
+
+							return (
+								<div
+									key={field.id}
+									className='flex items-center gap-1 text-lg sm:text-sm'
+								>
+									<span className='text-xs'>от</span>
+
+									{isFirst ? (
+										// Первый инпут "от" — всегда readonly
+										<input
+											value={r.min}
+											readOnly
+											className='w-27 sm:w-18 border border-border-gray rounded pl-2 bg-gray-100'
+										/>
+									) : (
+										// Остальные инпуты "от" — редактируемые
+										<input
+											type='number'
+											value={
+												pendingValues[`min_${i}` as any] !== undefined
+													? pendingValues[`min_${i}` as any]
+													: r.min
+											}
+											onChange={e => handleMinInputChange(i, e.target.value)}
+											onBlur={() => handleMinInputBlur(i)}
+											className='w-27 sm:w-18 border border-border-gray rounded pl-2'
+										/>
+									)}
+
+									<span className='text-xs'>до</span>
+									<input
+										type='number'
+										value={
+											pendingValues[`max_${i}` as any] !== undefined
+												? pendingValues[`max_${i}` as any]
+												: r.max
+										}
+										onChange={e => handleMaxInputChange(i, e.target.value)}
+										onBlur={() => handleMaxInputBlur(i)}
+										className='w-27 sm:w-18 border border-border-gray rounded pl-2'
+									/>
+									<span className='text-xs'>-</span>
+									<WrapperColorPicker r={r} index={i} setValue={setValue} />
+									<span className='text-xs'>-</span>
+
+									<button
+										type='button'
+										onClick={() => deleteRange(i)}
+										className='px-4 sm:px-2 py-1 rounded bg-text-red text-white text-lg sm:text-sm'
+									>
+										✕
+									</button>
+								</div>
+							);
+						})}
+					</div>
+					<Button
+						variant='transparent'
+						type='button'
+						onClick={addRange}
+						className='mt-4 min-h-12 text-sm! sm:text-xs! sm:min-h-8'
+					>
+						Добавить
+					</Button>{' '}
+				</>
+			)}
 		</div>
 	);
 };

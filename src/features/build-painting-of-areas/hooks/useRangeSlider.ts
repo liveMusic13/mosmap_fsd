@@ -17,6 +17,10 @@
 // }: UseRangeSliderParams) => {
 // 	const sliderRef = useRef<HTMLDivElement>(null);
 // 	const [dragging, setDragging] = useState<number | null>(null);
+// 	// Сырые значения пока пользователь печатает
+// 	const [pendingValues, setPendingValues] = useState<Record<number, string>>(
+// 		{},
+// 	);
 // 	/* ----------------------------- HELPERS ----------------------------- */
 // 	const getValueFromClientX = (clientX: number): number => {
 // 		if (!sliderRef.current) return 0;
@@ -25,14 +29,53 @@
 // 		return Math.round(percent * maxValue);
 // 	};
 // 	/* ----------------------------- CHANGE ----------------------------- */
+// 	// const changeMax = (index: number, value: number) => {
+// 	// 	const clamped = Math.max(
+// 	// 		ranges[index].min,
+// 	// 		Math.min(value, ranges[index + 1]?.max ?? maxValue),
+// 	// 	);
+// 	// 	setValue(`ranges.${index}.max`, clamped);
+// 	// 	if (index < ranges.length - 1) {
+// 	// 		setValue(`ranges.${index + 1}.min`, clamped + 1);
+// 	// 	}
+// 	// };
+// 	// Вызывается onChange — просто сохраняем сырую строку, без проверок
 // 	const changeMax = (index: number, value: number) => {
 // 		const clamped = Math.max(
-// 			ranges[index].min,
-// 			Math.min(value, ranges[index + 1]?.max ?? maxValue),
+// 			ranges[index].min + 1,
+// 			Math.min(value, maxValue), // ограничиваем только глобальным maxValue
 // 		);
 // 		setValue(`ranges.${index}.max`, clamped);
-// 		if (index < ranges.length - 1) {
-// 			setValue(`ranges.${index + 1}.min`, clamped + 1);
+// 		let prevMax = clamped;
+// 		for (let i = index + 1; i < ranges.length; i++) {
+// 			const newMin = prevMax + 1;
+// 			setValue(`ranges.${i}.min`, newMin);
+// 			if (ranges[i].max <= newMin) {
+// 				const newMax = Math.min(newMin + 1, maxValue);
+// 				setValue(`ranges.${i}.max`, newMax);
+// 				prevMax = newMax;
+// 			} else {
+// 				prevMax = ranges[i].max;
+// 			}
+// 		}
+// 	};
+// 	const handleMaxInputChange = (index: number, raw: string) => {
+// 		setPendingValues(prev => ({ ...prev, [index]: raw }));
+// 	};
+// 	// Вызывается onBlur — нормализуем и записываем в форму
+// 	const handleMaxInputBlur = (index: number) => {
+// 		const raw = pendingValues[index];
+// 		if (raw !== undefined) {
+// 			const parsed = Number(raw);
+// 			if (!isNaN(parsed)) {
+// 				changeMax(index, parsed);
+// 			}
+// 			// Убираем pending — инпут вернётся к значению из формы
+// 			setPendingValues(prev => {
+// 				const next = { ...prev };
+// 				delete next[index];
+// 				return next;
+// 			});
 // 		}
 // 	};
 // 	/* ----------------------------- MOUSE ----------------------------- */
@@ -46,7 +89,6 @@
 // 	/* ----------------------------- TOUCH ----------------------------- */
 // 	const handleTouchMove = (e: React.TouchEvent) => {
 // 		if (dragging === null) return;
-// 		// Блокируем скролл страницы пока двигаем ползунок
 // 		e.preventDefault();
 // 		const touch = e.touches[0];
 // 		changeMax(dragging, getValueFromClientX(touch.clientX));
@@ -66,7 +108,6 @@
 // 	};
 // 	const deleteRange = (index: number) => {
 // 		remove(index);
-// 		// Если удалили первый — новый первый начинается с 0
 // 		if (index === 0 && ranges[1]) {
 // 			setValue('ranges.0.min', 0);
 // 		}
@@ -75,7 +116,10 @@
 // 		sliderRef,
 // 		dragging,
 // 		setDragging,
+// 		pendingValues,
 // 		changeMax,
+// 		handleMaxInputChange,
+// 		handleMaxInputBlur,
 // 		handleMouseMove,
 // 		handleMouseUp,
 // 		handleTouchMove,
@@ -106,7 +150,6 @@ export const useRangeSlider = ({
 }: UseRangeSliderParams) => {
 	const sliderRef = useRef<HTMLDivElement>(null);
 	const [dragging, setDragging] = useState<number | null>(null);
-	// Сырые значения пока пользователь печатает
 	const [pendingValues, setPendingValues] = useState<Record<number, string>>(
 		{},
 	);
@@ -124,33 +167,16 @@ export const useRangeSlider = ({
 
 	/* ----------------------------- CHANGE ----------------------------- */
 
-	// const changeMax = (index: number, value: number) => {
-	// 	const clamped = Math.max(
-	// 		ranges[index].min,
-	// 		Math.min(value, ranges[index + 1]?.max ?? maxValue),
-	// 	);
-
-	// 	setValue(`ranges.${index}.max`, clamped);
-
-	// 	if (index < ranges.length - 1) {
-	// 		setValue(`ranges.${index + 1}.min`, clamped + 1);
-	// 	}
-	// };
-
-	// Вызывается onChange — просто сохраняем сырую строку, без проверок
-
 	const changeMax = (index: number, value: number) => {
-		const clamped = Math.max(
-			ranges[index].min + 1,
-			Math.min(value, maxValue), // ограничиваем только глобальным maxValue
-		);
+		const clamped = Math.max(ranges[index].min + 1, Math.min(value, maxValue));
 
 		setValue(`ranges.${index}.max`, clamped);
 
+		// min следующего = max текущего (без +1)
 		let prevMax = clamped;
 
 		for (let i = index + 1; i < ranges.length; i++) {
-			const newMin = prevMax + 1;
+			const newMin = prevMax;
 
 			setValue(`ranges.${i}.min`, newMin);
 
@@ -164,13 +190,51 @@ export const useRangeSlider = ({
 		}
 	};
 
-	const handleMaxInputChange = (index: number, raw: string) => {
-		setPendingValues(prev => ({ ...prev, [index]: raw }));
+	const changeMin = (index: number, value: number) => {
+		if (index === 0) return; // первый всегда readonly
+
+		// Зажимаем только глобальными границами
+		const newMin = Math.max(0, Math.min(value, maxValue - 1));
+
+		// Устанавливаем новый min текущего диапазона
+		setValue(`ranges.${index}.min`, newMin);
+
+		// "до" предыдущего диапазона всегда = "от" текущего
+		setValue(`ranges.${index - 1}.max`, newMin);
+
+		// Если "до" текущего диапазона <= новому "от" — подтягиваем до newMin + 1
+		const currentMax = ranges[index].max;
+		const newCurrentMax =
+			currentMax <= newMin ? Math.min(newMin + 1, maxValue) : currentMax;
+
+		if (newCurrentMax !== currentMax) {
+			setValue(`ranges.${index}.max`, newCurrentMax);
+		}
+
+		// Пересчитываем все диапазоны после текущего
+		let prevMax = newCurrentMax;
+
+		for (let i = index + 1; i < ranges.length; i++) {
+			// "от" следующего = "до" предыдущего
+			setValue(`ranges.${i}.min`, prevMax);
+
+			// Если "до" следующего <= его "от" — подтягиваем
+			if (ranges[i].max <= prevMax) {
+				const newMax = Math.min(prevMax + 1, maxValue);
+				setValue(`ranges.${i}.max`, newMax);
+				prevMax = newMax;
+			} else {
+				prevMax = ranges[i].max;
+			}
+		}
 	};
 
-	// Вызывается onBlur — нормализуем и записываем в форму
+	const handleMaxInputChange = (index: number, raw: string) => {
+		setPendingValues(prev => ({ ...prev, [`max_${index}`]: raw }));
+	};
+
 	const handleMaxInputBlur = (index: number) => {
-		const raw = pendingValues[index];
+		const raw = pendingValues[`max_${index}` as any];
 
 		if (raw !== undefined) {
 			const parsed = Number(raw);
@@ -179,10 +243,31 @@ export const useRangeSlider = ({
 				changeMax(index, parsed);
 			}
 
-			// Убираем pending — инпут вернётся к значению из формы
 			setPendingValues(prev => {
 				const next = { ...prev };
-				delete next[index];
+				delete next[`max_${index}` as any];
+				return next;
+			});
+		}
+	};
+
+	const handleMinInputChange = (index: number, raw: string) => {
+		setPendingValues(prev => ({ ...prev, [`min_${index}`]: raw }));
+	};
+
+	const handleMinInputBlur = (index: number) => {
+		const raw = pendingValues[`min_${index}` as any];
+
+		if (raw !== undefined) {
+			const parsed = Number(raw);
+
+			if (!isNaN(parsed)) {
+				changeMin(index, parsed);
+			}
+
+			setPendingValues(prev => {
+				const next = { ...prev };
+				delete next[`min_${index}` as any];
 				return next;
 			});
 		}
@@ -221,7 +306,7 @@ export const useRangeSlider = ({
 		const last = ranges[ranges.length - 1];
 
 		if (last) {
-			const newMin = last.max + 1;
+			const newMin = last.max;
 			append({ min: newMin, max: newMin + 1, color: '#000000' });
 		} else {
 			append({ min: 0, max: 1, color: '#000000' });
@@ -242,8 +327,11 @@ export const useRangeSlider = ({
 		setDragging,
 		pendingValues,
 		changeMax,
+		changeMin,
 		handleMaxInputChange,
 		handleMaxInputBlur,
+		handleMinInputChange,
+		handleMinInputBlur,
 		handleMouseMove,
 		handleMouseUp,
 		handleTouchMove,

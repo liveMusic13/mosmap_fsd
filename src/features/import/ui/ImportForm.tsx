@@ -40,17 +40,17 @@ export const ImportForm: FC = () => {
 		[],
 	);
 	const { encoding, file, separator } = useWatch<IImportForm>({ control });
-	console.log(encoding);
+	console.log('encoding', encoding);
 	const nameFile = file;
 	const disabledButton = !encoding || !file || !separator;
 
 	const onSubmit = async (data: IImportForm) => {
 		const typesFile = typeof data.file === 'undefined' ? null : data.file;
-
+		console.log('data.encoding', data.encoding);
 		if (typesFile) {
 			const result = await mutateAsync({
 				map,
-				encoding: dataEncoding[data.encoding],
+				encoding: dataEncoding[data.encoding - 1],
 				file: typesFile,
 				separator: String(data.separator),
 			});

@@ -73,6 +73,7 @@ export const PanelPlace: FC<IProps> = ({ toggleAvailabilityZone }) => {
 	const crdMoveMarker = useMoveMarkerStore(store => store.crd);
 	const clearCrdMoveMarker = useMoveMarkerStore(store => store.clearCrd);
 	const setCenterMap = useCenterMapStore(store => store.setCenterMap);
+	const centerMap = useCenterMapStore(store => store.centerMap);
 	const clearCrdAreaMarker = useCrdAreaStore(store => store.clearCrd);
 
 	const {
@@ -97,7 +98,13 @@ export const PanelPlace: FC<IProps> = ({ toggleAvailabilityZone }) => {
 
 	const onClick = (butId: number) => {
 		if (butId === 0) {
-			setCenterMap(data?.crd || CENTER_MAP_CRD);
+			if (centerMap[0] === data?.crd[0] && centerMap[1] === data.crd[1]) {
+				let newCrd = [data.crd[0], data.crd[1] + 0.00000001];
+
+				setCenterMap(newCrd || CENTER_MAP_CRD);
+			} else {
+				setCenterMap(data?.crd || CENTER_MAP_CRD);
+			}
 		} else if (butId === 1) {
 			setIsPopup(true);
 		} else if (butId === 2) {
