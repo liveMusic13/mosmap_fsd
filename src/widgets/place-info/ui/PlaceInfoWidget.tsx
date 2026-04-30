@@ -83,9 +83,9 @@ export const PlaceInfoWidget: FC = () => {
 							/>
 						</Button>
 					</div>
-					{view !== 'create-place' && (
-						<PanelPlace toggleAvailabilityZone={toggle} />
-					)}
+					{/* {view !== 'create-place' && ( */}
+					<PanelPlace toggleAvailabilityZone={toggle} />
+					{/* )} */}
 					<div className='min-h-0 overflow-y-auto scrollbar-custom '>
 						{viewOrganizationInAvailabilityZone && (
 							<OrganizationInAvailabilityZone closeInAvailabilityZone={close} />

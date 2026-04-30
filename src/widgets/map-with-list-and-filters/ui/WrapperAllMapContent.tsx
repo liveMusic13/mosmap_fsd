@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, Suspense } from 'react';
+import { FC, Suspense, useEffect } from 'react';
 
 import { useInitialViewBlocks } from '../hooks/useInitialViewBlocks';
 
@@ -30,6 +30,10 @@ const WrapperAllMapContent: FC<IProps> = ({ places, isClearMap }) => {
 	);
 
 	useInitialViewBlocks(isClearMap);
+
+	useEffect(() => {
+		console.log('view', view);
+	}, [view]);
 
 	return (
 		<div className='flex flex-col sm:flex-row min-h-0 min-w-0 flex-1 gap-3'>

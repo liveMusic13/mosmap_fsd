@@ -10,6 +10,7 @@ import { IDetailsPlaceInfo } from '@/entities/place/types';
 import { useGetMapPageData } from '@/shared/hooks/api-hooks/useGetMapPageData';
 import { useGetSeoOrQueryParam } from '@/shared/hooks/useGetSeoOrQueryParam';
 import { buildQueryParams } from '@/shared/lib/url';
+import { useViewBlocksStore } from '@/shared/store/panelOptions.store';
 import Button from '@/shared/ui/Button';
 import { LoaderPortal } from '@/shared/ui/loader';
 
@@ -33,6 +34,7 @@ export const ButtonsCreate: FC<IProps> = ({ place }) => {
 	const { reset, getValues } = useFormContext();
 
 	const { mutate, isSuccess, data, isPending } = useSavePlaceInfo();
+	const openView = useViewBlocksStore(store => store.openView);
 	const crdArea = useCrdAreaStore(store => store.crd);
 	const clearCrdArea = useCrdAreaStore(store => store.clearCrd);
 	// const fullCloseView = useViewBlocksStore(store => store.fullCloseView);
@@ -51,10 +53,11 @@ export const ButtonsCreate: FC<IProps> = ({ place }) => {
 		if (isSuccess) {
 			refetch();
 			clearCrdArea();
+			openView('place-info');
 		}
 	}, [isSuccess, data]);
 
-	console.log('place', place);
+	// console.log('place', place);
 
 	const onClick = (id: number) => {
 		if (id === 0) {
