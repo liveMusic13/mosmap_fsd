@@ -12,7 +12,8 @@ const Footer: FC = () => {
 	const [isOpen, setIsOpen] = useState(false);
 
 	return (
-		<footer className='w-full bg-primary px-2.5 sm:px-4 2xl:px-15 pt-2 sm:h-17 md:h-18 lg:h-18 2xl:h-22'>
+		// <footer className='w-full bg-primary px-2.5 sm:px-4 2xl:px-15 pt-2 sm:h-17 md:h-18 lg:h-18 2xl:h-22'>
+		<footer className='w-full bg-primary px-2.5 sm:px-4 pt-2 sm:h-17 md:h-18 lg:h-18'>
 			<VStack>
 				{/*HELP: Кликабельный заголовок (только на мобильных) */}
 				<button
