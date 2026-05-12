@@ -2,7 +2,7 @@
 
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useRef } from 'react';
 
 import { useCheckToken } from '@/app/providers/TokenProvider';
 import { PlaceFormProvider } from '@/entities/place';
@@ -18,6 +18,7 @@ import { useViewBlocksStore } from '@/shared/store/panelOptions.store';
 import Button from '@/shared/ui/Button';
 import { Loader } from '@/shared/ui/loader/Loader';
 import OrganizationInAvailabilityZone from '@/widgets/availability-zone/ui/OrganizationInAvailabilityZone';
+import { UnsavedChangesGuard } from './UnsavedChangesGuard';
 
 const DynamicLoaderPortal = dynamic(
 	() => import('@/shared/ui/loader/LoaderPortal').then(mod => mod.LoaderPortal),
@@ -44,6 +45,14 @@ export const PlaceInfoWidget: FC = () => {
 	const { isLoading, data } = useGetDetailsPlace(targetPlaceId);
 	const { token } = useCheckToken();
 
+	const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+	useEffect(() => {
+		if (viewOrganizationInAvailabilityZone && scrollContainerRef.current) {
+			scrollContainerRef.current.scrollTop = 0;
+		}
+	}, [viewOrganizationInAvailabilityZone]);
+
 	const handleReset = () => {
 		closeView();
 		clearId();
@@ -63,6 +72,9 @@ export const PlaceInfoWidget: FC = () => {
 		<div className='flex flex-col gap-2 min-h-0 flex-1'>
 			{/* HELP: Провайдер работает для 2 фич: создание объекта и редактирование объекта. Ставим ключ для провайдера чтобы при смене режима, провайдер размонтировался и значения полей сбрасывались. Это нужно чтобы после просмотра или редактировании какого-то объекта, при создании новго объекта дефолтно все поля были пустыми, а не принимали значения от предыдущего объекта. */}
 			<PlaceFormProvider key={view}>
+				{view === 'place-info' && token && (
+					<UnsavedChangesGuard view={view} token={token} />
+				)}
 				<div className='shadow-custom-black w-full sm:w-56 xl:w-sm rounded-xl py-3 px-2 xl:py-5 xl:px-4 flex flex-col gap-3 h-fit max-h-full min-h-0'>
 					<div className='flex items-center justify-between shrink-0'>
 						<h3 className='font-bold text-xl xl:text-[1.38rem]'>
@@ -86,7 +98,7 @@ export const PlaceInfoWidget: FC = () => {
 					{/* {view !== 'create-place' && ( */}
 					<PanelPlace toggleAvailabilityZone={toggle} />
 					{/* )} */}
-					<div className='min-h-0 overflow-y-auto scrollbar-custom '>
+					<div ref={scrollContainerRef} className='min-h-0 overflow-y-auto scrollbar-custom '>
 						{viewOrganizationInAvailabilityZone && (
 							<OrganizationInAvailabilityZone closeInAvailabilityZone={close} />
 						)}

@@ -88,7 +88,7 @@ export const ImportForm: FC = () => {
 					/>
 					<Button className='w-40! whitespace-nowrap'>Выбрать файл</Button>
 					<p className='rounded-md w-full text-xs border border-border-gray/30 bg-white py-2 px-2'>
-						{truncateDescription(nameFile?.name ?? 'Нету файла', 29)}
+						{truncateDescription(nameFile?.name ?? 'Нет файла', 29)}
 					</p>
 				</div>
 				<div className='border-b border-b-dotted border-b-border-dotted w-full my-1' />

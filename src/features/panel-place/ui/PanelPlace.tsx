@@ -1,7 +1,7 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useRef } from 'react';
 
 import { usePopups } from '../hooks/usePopups';
 
@@ -28,7 +28,8 @@ export const arrMenuPlace = [
 	},
 	{
 		id: 1,
-		hover_text: 'Убрать маркер',
+		// hover_text: 'Убрать маркер',
+		hover_text: 'Установка маркера',
 		src: 'map-marker-remove',
 	},
 	{
@@ -82,6 +83,22 @@ export const PanelPlace: FC<IProps> = ({ toggleAvailabilityZone }) => {
 		isPending,
 		data: data_delete_crd,
 	} = useSavePlaceInfo();
+
+	const prevTargetPlaceIdRef = useRef<number | null>(null);
+
+	useEffect(() => {
+		const prevId = prevTargetPlaceIdRef.current;
+		prevTargetPlaceIdRef.current = targetPlaceId;
+
+		if (prevId !== null && prevId !== targetPlaceId) {
+			setIsPopup(false);
+			setIsMoveMarker(false);
+			setIsSaveNewCrdMarker(false);
+			setMoveMarker(false);
+			clearCrdMoveMarker();
+			clearCrdAreaMarker();
+		}
+	}, [targetPlaceId]);
 
 	const queryString = buildQueryParams(
 		mapOrSeoUrl.type,
