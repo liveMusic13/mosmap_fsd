@@ -13,13 +13,13 @@ export const getAvailabilityZone = async ({
 }): Promise<IAvailabilityZone> => {
 	if (id) {
 		const response = await axios.get(
-			`/api/availability-zone?id=${id}&radius=5`,
+			`/proxy-api/availability-zone?id=${id}&radius=5`,
 		);
 
 		return response.data;
 	} else {
 		const response = await axios.get(
-			`/api/availability-zone?lng=${lng}&lat=${lat}&radius=5`,
+			`/proxy-api/availability-zone?lng=${lng}&lat=${lat}&radius=5`,
 		);
 
 		return response.data;

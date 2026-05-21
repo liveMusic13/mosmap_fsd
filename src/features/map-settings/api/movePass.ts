@@ -10,7 +10,7 @@ export const movePass = async (data: {
 	token?: string;
 	message?: string;
 }> => {
-	const response = await axios.post(`/api/settings/map/move-password`, data);
+	const response = await axios.post(`/proxy-api/settings/map/move-password`, data);
 
 	return response.data;
 };

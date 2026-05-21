@@ -9,7 +9,7 @@ export const getDetailsPlace = async (
 	id: number,
 ): Promise<IDetailsPlaceInfo> => {
 	const { data } = await axios.get<IDetailsPlaceInfo>(
-		`/api/detail-place?id=${id}`,
+		`/proxy-api/detail-place?id=${id}`,
 	);
 
 	return data;
@@ -20,7 +20,7 @@ export const savePlaceInfo = async (data: {
 	place: IDetailsPlaceInfo;
 }): Promise<IDetailsPlaceInfo> => {
 	const response = await axios.post<IDetailsPlaceInfo>(
-		`/api/save-place${data.queryParams}`, // ← Вызываем свой API route
+		`/proxy-api/save-place${data.queryParams}`, // ← Вызываем свой API route
 		data.place,
 	);
 
@@ -45,7 +45,7 @@ export const deletePlace = async (
 	id: number,
 ): Promise<{ delete: boolean; id: number }> => {
 	const response = await axios.get<{ delete: boolean; id: number }>(
-		`/api/delete-place?id=${id}`, // ← Вызываем свой API route
+		`/proxy-api/delete-place?id=${id}`, // ← Вызываем свой API route
 	);
 
 	return response.data;

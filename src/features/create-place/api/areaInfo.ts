@@ -7,7 +7,7 @@ export const getAreaInfo = async (
 	lng: number,
 ): Promise<IAreaDetails[]> => {
 	const response = await axios.get<IAreaDetails[]>(
-		`/api/detail-area?lat=${lat}&lng=${lng}`,
+		`/proxy-api/detail-area?lat=${lat}&lng=${lng}`,
 	);
 
 	return response.data;

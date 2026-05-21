@@ -4,7 +4,7 @@ import { IRowAdditional } from '../types';
 
 export const getIcons = async (map: string): Promise<string[]> => {
 	const response = await axios.get(
-		`/api/settings/database/additional?map=${map}`,
+		`/proxy-api/settings/database/additional?map=${map}`,
 	);
 
 	return response.data;
@@ -17,14 +17,14 @@ export const getListItems = async (data: {
 }): Promise<IRowAdditional[]> => {
 	if (data.items) {
 		const response = await axios.post(
-			`/api/settings/database/additional?map=${data.map}`,
+			`/proxy-api/settings/database/additional?map=${data.map}`,
 			{ id: data.idObject, items: data.items },
 		);
 
 		return response.data;
 	} else {
 		const response = await axios.post(
-			`/api/settings/database/additional?map=${data.map}`,
+			`/proxy-api/settings/database/additional?map=${data.map}`,
 			{ id: data.idObject },
 		);
 

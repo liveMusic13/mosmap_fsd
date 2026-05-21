@@ -12,7 +12,7 @@ export const importLoad = async (data: {
 	formData.append('encoding', data.encoding); //HELP: Добавляем кодировку в FormData
 
 	const response = await axios.post(
-		`/api/import-load?map=${data.map}`,
+		`/proxy-api/import-load?map=${data.map}`,
 		formData,
 	);
 
@@ -24,7 +24,7 @@ export const importDone = async (data: {
 	data: Record<string, string>;
 }): Promise<{ add_rows: number; update_rows: number; read_rows: number }> => {
 	const response = await axios.post(
-		`/api/import-done?map=${data.map}`,
+		`/proxy-api/import-done?map=${data.map}`,
 		data.data,
 	);
 

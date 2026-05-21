@@ -12,12 +12,12 @@ export const getColorMap = async (
 
 	if (isNumeric) {
 		const { data } = await axios.get(
-			`/api/painting-of-areas/color-map?map=${mapParam}&sloi=${sloi}&mode=${mode}&field_id=${field_id}`,
+			`/proxy-api/painting-of-areas/color-map?map=${mapParam}&sloi=${sloi}&mode=${mode}&field_id=${field_id}`,
 		);
 		return data;
 	} else {
 		const { data } = await axios.get(
-			`/api/painting-of-areas/color-map?url=${mapParam}&sloi=${sloi}&mode=${mode}&field_id=${field_id}`,
+			`/proxy-api/painting-of-areas/color-map?url=${mapParam}&sloi=${sloi}&mode=${mode}&field_id=${field_id}`,
 		);
 		return data;
 	}

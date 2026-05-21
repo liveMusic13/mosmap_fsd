@@ -19,7 +19,7 @@ export const exportDone = async (data: {
 	});
 
 	const response = await axios.get(
-		`/api/export-done?map=${data.map}&${params}`,
+		`/proxy-api/export-done?map=${data.map}&${params}`,
 	);
 
 	return response.data;

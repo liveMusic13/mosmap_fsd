@@ -5,7 +5,7 @@ import { IObjectOne, IObjectThree, IObjectTwo } from '../types';
 export const getAllFields = async (): Promise<
 	(IObjectOne | IObjectTwo | IObjectThree)[]
 > => {
-	const response = await axios.get(`/api/settings/database`);
+	const response = await axios.get(`/proxy-api/settings/database`);
 
 	return response.data;
 };
@@ -13,7 +13,7 @@ export const getAllFields = async (): Promise<
 export const saveAllFields = async (
 	data: (IObjectOne | IObjectTwo | IObjectThree)[],
 ): Promise<(IObjectOne | IObjectTwo | IObjectThree)[]> => {
-	const response = await axios.post(`/api/settings/database`, data);
+	const response = await axios.post(`/proxy-api/settings/database`, data);
 
 	return response.data;
 };

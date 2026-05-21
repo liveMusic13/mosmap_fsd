@@ -30,13 +30,13 @@ export const saveColorInterval = async (
 
 	if (isNumeric) {
 		const { data } = await axios.post(
-			`/api/painting-of-areas?map=${mapParam}`,
+			`/proxy-api/painting-of-areas?map=${mapParam}`,
 			body,
 		);
 		return data;
 	} else {
 		const { data } = await axios.post(
-			`/api/painting-of-areas?url=${mapParam}`,
+			`/proxy-api/painting-of-areas?url=${mapParam}`,
 			body,
 		);
 		return data;

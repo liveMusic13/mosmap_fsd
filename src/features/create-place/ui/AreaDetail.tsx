@@ -52,7 +52,7 @@ export const AreaDetail: FC<IProps> = ({ area }) => {
 				</Link>
 			) : (
 				<p className='font-medium border border-border-input-gray px-2 py-1 xl:px-4 xl:py-2 rounded-sm text-primary text-xs xl:text-sm'>
-					{area.value || 'Нету данных'}
+					{area.value || ' '}
 				</p>
 			)}
 		</div>

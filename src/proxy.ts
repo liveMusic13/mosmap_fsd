@@ -10,5 +10,5 @@ export default chain([
 ]);
 
 export const config = {
-	matcher: ['/((?!api|_next/static|_next/image|favicon.ico|auth|images).*)'],
+	matcher: ['/((?!proxy-api|_next/static|_next/image|favicon.ico|auth|images).*)'],
 };
