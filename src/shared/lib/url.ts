@@ -17,13 +17,24 @@ export function buildQueryParams(
 
 	const urlParams = new URLSearchParams();
 
-	for (const [key, value] of Object.entries(searchParams)) {
-		if (!value) continue;
-
-		if (Array.isArray(value)) {
-			value.forEach(v => urlParams.append(key, v));
-		} else {
+	// На клиенте сюда приходит URLSearchParams (из useSearchParams),
+	// на сервере — обычный объект (Next searchParams).
+	// У URLSearchParams нет собственных перечисляемых свойств,
+	// поэтому Object.entries по нему вернул бы пустой массив и фильтры терялись.
+	if (searchParams instanceof URLSearchParams) {
+		searchParams.forEach((value, key) => {
+			if (!value) return;
 			urlParams.append(key, value);
+		});
+	} else {
+		for (const [key, value] of Object.entries(searchParams)) {
+			if (!value) continue;
+
+			if (Array.isArray(value)) {
+				value.forEach(v => urlParams.append(key, v));
+			} else {
+				urlParams.append(key, value);
+			}
 		}
 	}
 
